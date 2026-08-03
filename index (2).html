@@ -1,0 +1,3652 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LACMA FIN</title>
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --surface:#13161b;
+      --surface-soft:#181c22;
+      --text:#f6f7f9;
+      --muted:#949aa5;
+      --line:#272c35;
+      --accent:#d9ff62;
+      --accent-strong:#bce82f;
+      --warning:#f4b942;
+      --danger:#e66c6c;
+      --success:#42b878;
+      --info:#5e8ff0;
+      --shadow:0 14px 34px rgba(0,0,0,.28);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    button{font:inherit;cursor:pointer}
+    .hidden{display:none!important}
+
+    .app{min-height:100vh}
+    .topbar{
+      height:72px;
+      padding:0 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(13,15,19,.92);
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(14px);
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:850;
+      letter-spacing:.06em;
+    }
+
+    .brand-fin{
+      padding:7px 10px;
+      border-radius:9px;
+      background:#0f1115;
+      color:var(--accent);
+      font-size:12px;
+    }
+
+    .profile{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:#0f1115;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+    }
+
+    .content{
+      width:min(1440px,100%);
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .page-head{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:flex-end;
+      margin-bottom:20px;
+    }
+
+    .page-head h1{
+      margin:0 0 6px;
+      font-size:32px;
+      letter-spacing:-.03em;
+    }
+
+    .page-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .today{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:center;
+      padding:18px;
+      border-radius:16px;
+      background:#0f1115;
+      color:#fff;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .today-title{
+      font-size:13px;
+      color:#c7cbd3;
+      margin-bottom:8px;
+    }
+
+    .today-list{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .today-item{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:10px 12px;
+      min-width:210px;
+    }
+
+    .today-item strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:4px;
+    }
+
+    .today-item span{
+      font-size:11px;
+      color:#c7cbd3;
+    }
+
+    .btn{
+      border:0;
+      border-radius:10px;
+      padding:10px 13px;
+      font-weight:800;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#111500;
+    }
+
+    .btn-secondary{
+      background:var(--surface-soft);
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+
+    .section{margin-top:20px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.01em;
+    }
+
+    .section-head span{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:.88fr 1.12fr;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .metric-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      color:var(--muted);
+    }
+
+    .metric-value{
+      font-size:29px;
+      font-weight:850;
+      margin:10px 0 5px;
+      letter-spacing:-.03em;
+    }
+
+    .metric-note{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .profit{
+      background:linear-gradient(180deg,#fbffe9,#fff);
+      border-color:rgba(217,255,98,.24);
+    }
+
+    .pending-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .pending-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      padding:13px 14px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--surface-soft);
+    }
+
+    .person{
+      display:flex;
+      align-items:center;
+      gap:11px;
+    }
+
+    .status-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      flex:0 0 auto;
+    }
+
+    .status-dot.pending{background:var(--warning)}
+    .status-dot.approved{background:var(--info)}
+    .status-dot.overdue{background:var(--danger)}
+
+    .person strong{
+      display:block;
+      font-size:13px;
+    }
+
+    .person span{
+      display:block;
+      margin-top:3px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .pending-value{
+      text-align:right;
+    }
+
+    .pending-value strong{
+      display:block;
+      font-size:13px;
+    }
+
+    .pending-value span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .calendar{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:7px;
+    }
+
+    .day-label{
+      text-align:center;
+      font-size:10px;
+      color:var(--muted);
+      padding:4px;
+    }
+
+    .day{
+      min-height:80px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px;
+      background:var(--surface);
+      transition:.18s;
+    }
+
+    .day.muted{opacity:.32}
+    .day.active{
+      cursor:pointer;
+      border-color:#dceaaa;
+      background:rgba(217,255,98,.07);
+    }
+
+    .day.active:hover{
+      transform:translateY(-2px);
+      box-shadow:0 8px 18px rgba(20,24,32,.08);
+    }
+
+    .day-number{
+      font-size:10px;
+      color:var(--muted);
+    }
+
+    .calendar-event{
+      display:block;
+      margin-top:8px;
+      padding:6px 7px;
+      border-radius:8px;
+      font-size:10px;
+      font-weight:800;
+      line-height:1.25;
+    }
+
+    .calendar-event.invoice{
+      background:rgba(244,185,66,.12);
+      color:#8a6300;
+    }
+
+    .calendar-event.receive{
+      background:rgba(66,184,120,.12);
+      color:#237649;
+    }
+
+    .calendar-event.pay{
+      background:rgba(230,108,108,.12);
+      color:#9c3e3e;
+    }
+
+    .calendar-event.renewal{
+      background:rgba(94,143,240,.12);
+      color:#315ba7;
+    }
+
+    .legend{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .legend span{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .legend i{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      display:inline-block;
+    }
+
+    .legend .invoice{background:var(--warning)}
+    .legend .receive{background:var(--success)}
+    .legend .pay{background:var(--danger)}
+    .legend .renewal{background:var(--info)}
+
+    .modal-bg{
+      position:fixed;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:18px;
+      background:rgba(20,22,26,.42);
+      z-index:9999;
+    }
+
+    .modal{
+      width:min(470px,100%);
+      background:var(--surface);
+      border-radius:18px;
+      padding:20px;
+      box-shadow:0 24px 70px rgba(0,0,0,.22);
+    }
+
+    .modal h3{
+      margin:0 0 15px;
+      font-size:19px;
+    }
+
+    .modal-row{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:12px 0;
+      border-bottom:1px solid var(--line);
+      font-size:13px;
+    }
+
+    .modal-row:last-of-type{border-bottom:0}
+    .modal-row span{color:var(--muted)}
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:9px;
+      margin-top:16px;
+    }
+
+    @media(max-width:1000px){
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+      .grid-2{grid-template-columns:1fr}
+    }
+
+    @media(max-width:680px){
+      .content{padding:18px 12px}
+      .topbar{padding:0 14px}
+      .grid-4{grid-template-columns:1fr}
+      .today{align-items:flex-start;flex-direction:column}
+      .calendar{gap:4px}
+      .day{min-height:68px;padding:6px}
+    }
+  
+.profit{
+background:#223114 !important;
+border:1px solid rgba(217,255,98,.25)!important;
+}
+.profit .metric-label{
+color:#c9d7a0 !important;
+}
+.profit .metric-value{
+color:#d9ff62 !important;
+}
+.profit .metric-note{
+color:#d6d6d6 !important;
+}
+
+
+    .topbar-left{display:flex;align-items:center;gap:24px}
+    .main-nav{display:flex;gap:6px}
+    .nav-btn{
+      border:1px solid transparent;
+      background:transparent;
+      color:var(--muted);
+      padding:9px 11px;
+      border-radius:10px;
+      font-weight:750;
+    }
+    .nav-btn:hover,.nav-btn.active{
+      color:var(--text);
+      background:var(--surface-soft);
+      border-color:var(--line);
+    }
+    .portal-page{display:none}
+    .portal-page.active{display:block}
+    .client-toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .client-search{
+      width:min(420px,100%);
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:11px;
+      padding:11px 12px;
+      color:var(--text);
+      outline:none;
+    }
+    .client-search:focus{
+      border-color:rgba(217,255,98,.55);
+      box-shadow:0 0 0 3px rgba(217,255,98,.07);
+    }
+    .client-table-wrap{
+      overflow:auto;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+    }
+    .client-table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+    }
+    .client-table th,.client-table td{
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      font-size:12px;
+    }
+    .client-table th{
+      color:var(--muted);
+      background:#101318;
+      font-weight:700;
+    }
+    .client-table tr:last-child td{border-bottom:0}
+    .client-status{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      font-size:11px;
+      font-weight:800;
+      padding:6px 9px;
+      border-radius:999px;
+    }
+    .client-status::before{
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:currentColor;
+    }
+    .client-status.active{
+      color:var(--success);
+      background:rgba(66,184,120,.1);
+    }
+    .client-status.inactive{
+      color:var(--muted);
+      background:rgba(148,154,165,.1);
+    }
+    .row-actions{display:flex;gap:7px;flex-wrap:wrap}
+    .btn-danger{
+      background:rgba(230,108,108,.12);
+      color:#ff9f9f;
+      border:1px solid rgba(230,108,108,.25);
+    }
+    .btn-small{padding:7px 9px;font-size:11px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .field{display:grid;gap:7px;margin-bottom:14px}
+    .field label{font-size:12px;color:#d7dbe2}
+    .input{
+      width:100%;
+      background:#0f1216;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:11px 12px;
+      outline:none;
+    }
+    .input:focus{
+      border-color:rgba(217,255,98,.55);
+      box-shadow:0 0 0 3px rgba(217,255,98,.07);
+    }
+    .flag-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:13px 14px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--surface-soft);
+    }
+    .flag-row strong{display:block;font-size:13px}
+    .flag-row span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+    .switch{position:relative;width:46px;height:26px;flex:0 0 auto}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{
+      position:absolute;inset:0;
+      background:#343943;
+      border-radius:999px;
+      transition:.2s;
+    }
+    .slider:before{
+      content:"";
+      position:absolute;
+      width:20px;height:20px;
+      left:3px;top:3px;
+      border-radius:50%;
+      background:#fff;
+      transition:.2s;
+    }
+    .switch input:checked + .slider{background:var(--accent-strong)}
+    .switch input:checked + .slider:before{transform:translateX(20px);background:#111500}
+    .empty-state{padding:36px;text-align:center;color:var(--muted)}
+    @media(max-width:800px){
+      .topbar{height:auto;min-height:72px;padding:12px 14px;align-items:flex-start}
+      .topbar-left{align-items:flex-start;flex-direction:column;gap:10px}
+      .main-nav{flex-wrap:wrap}
+      .client-toolbar{align-items:stretch;flex-direction:column}
+      .form-grid{grid-template-columns:1fr}
+    }
+
+
+    body{
+      font-family:"Inter","SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-weight:400;
+      letter-spacing:-.01em;
+    }
+    h1,h2,h3,strong,.metric-value{
+      font-weight:600 !important;
+      letter-spacing:-.03em;
+    }
+    .app-shell{
+      display:grid;
+      grid-template-columns:220px 1fr;
+      min-height:100vh;
+    }
+    .sidebar{
+      position:sticky;
+      top:0;
+      height:100vh;
+      background:#0f1115;
+      border-right:1px solid var(--line);
+      padding:22px 14px;
+      display:flex;
+      flex-direction:column;
+      z-index:30;
+    }
+    .sidebar-brand{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:0 8px 24px;
+      font-size:15px;
+      font-weight:600;
+      letter-spacing:.08em;
+    }
+    .sidebar-brand .brand-fin{
+      font-size:10px;
+      padding:5px 7px;
+      border-radius:7px;
+    }
+    .sidebar-nav{
+      display:grid;
+      gap:5px;
+    }
+    .sidebar-link{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:0;
+      background:transparent;
+      color:#8f96a3;
+      padding:10px 11px;
+      border-radius:10px;
+      font-size:12px;
+      font-weight:500;
+      text-align:left;
+      transition:.18s;
+    }
+    .sidebar-link:hover,
+    .sidebar-link.active{
+      background:#181c22;
+      color:#f4f6f8;
+    }
+    .sidebar-link.active{
+      box-shadow:inset 2px 0 0 var(--accent);
+    }
+    .sidebar-icon{
+      width:16px;
+      text-align:center;
+      opacity:.8;
+      font-size:13px;
+    }
+    .sidebar-footer{
+      margin-top:auto;
+      padding:12px 8px 0;
+      border-top:1px solid var(--line);
+    }
+    .sidebar-user{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .sidebar-user .profile{
+      width:32px;
+      height:32px;
+      font-size:12px;
+    }
+    .sidebar-user strong{
+      display:block;
+      font-size:12px;
+      font-weight:500 !important;
+    }
+    .sidebar-user span{
+      display:block;
+      font-size:10px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+    .main-area{min-width:0}
+    .topbar{
+      height:64px;
+      padding:0 24px;
+      justify-content:flex-end;
+      background:rgba(11,13,16,.88);
+    }
+    .topbar-left,.main-nav,.topbar .brand{display:none!important}
+    .content{padding:24px 28px}
+    .page-head h1{
+      font-size:28px;
+      font-weight:600 !important;
+    }
+    .page-head p{
+      font-size:12px;
+    }
+    .section-head h2{
+      font-size:14px;
+      font-weight:600 !important;
+    }
+    .metric-label{
+      font-size:10px;
+      font-weight:500;
+      letter-spacing:.08em;
+    }
+    .metric-value{
+      font-size:27px;
+      font-weight:600 !important;
+    }
+    .metric-note,
+    .section-head span,
+    .person span,
+    .pending-value span{
+      font-weight:400;
+    }
+    .btn{
+      font-weight:500;
+      font-size:12px;
+    }
+    .client-table th{
+      font-weight:500;
+      letter-spacing:.02em;
+    }
+    .client-table td{
+      font-weight:400;
+    }
+    .client-table td strong{
+      font-weight:500 !important;
+    }
+    @media(max-width:900px){
+      .app-shell{grid-template-columns:76px 1fr}
+      .sidebar{padding:18px 10px}
+      .sidebar-brand span:first-child,
+      .sidebar-link span:last-child,
+      .sidebar-user div:last-child{display:none}
+      .sidebar-brand{justify-content:center;padding-left:0;padding-right:0}
+      .sidebar-link{justify-content:center;padding:10px}
+      .sidebar-icon{width:auto}
+      .sidebar-footer{padding-left:0;padding-right:0}
+      .sidebar-user{justify-content:center}
+    }
+    @media(max-width:640px){
+      .app-shell{display:block}
+      .sidebar{
+        position:fixed;
+        top:auto;
+        bottom:0;
+        width:100%;
+        height:64px;
+        flex-direction:row;
+        align-items:center;
+        padding:7px 10px;
+        border-right:0;
+        border-top:1px solid var(--line);
+      }
+      .sidebar-brand,.sidebar-footer{display:none}
+      .sidebar-nav{
+        width:100%;
+        grid-template-columns:repeat(2,1fr);
+      }
+      .sidebar-link{
+        justify-content:center;
+        padding:9px 8px;
+      }
+      .sidebar-link span:last-child{display:inline}
+      .content{padding:18px 12px 84px}
+      .topbar{display:none}
+    }
+
+
+    .login-screen{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background:
+        radial-gradient(circle at 20% 15%,rgba(217,255,98,.08),transparent 28%),
+        radial-gradient(circle at 80% 75%,rgba(94,143,240,.06),transparent 25%),
+        var(--bg);
+    }
+    .login-card{
+      width:min(430px,100%);
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:30px;
+      box-shadow:0 24px 70px rgba(0,0,0,.32);
+    }
+    .login-brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:16px;
+      font-weight:600;
+      letter-spacing:.08em;
+      margin-bottom:30px;
+    }
+    .login-brand .brand-fin{
+      font-size:10px;
+      padding:5px 7px;
+      border-radius:7px;
+    }
+    .login-card h1{
+      margin:0 0 7px;
+      font-size:28px;
+      font-weight:600;
+      letter-spacing:-.04em;
+    }
+    .login-card p{
+      margin:0 0 22px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+    .login-separator{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:11px;
+      margin:17px 0;
+    }
+    .login-separator::before,
+    .login-separator::after{
+      content:"";
+      height:1px;
+      background:var(--line);
+      flex:1;
+    }
+    .google-btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      background:var(--surface-soft);
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+    .google-mark{
+      width:18px;height:18px;border-radius:50%;
+      display:grid;place-items:center;
+      background:#fff;color:#4285f4;
+      font-weight:700;font-size:12px;
+    }
+    .login-error{
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:10px;
+      background:rgba(230,108,108,.1);
+      color:#ff9f9f;
+      border:1px solid rgba(230,108,108,.2);
+      font-size:11px;
+    }
+    .password-wrap{position:relative}
+    .password-toggle{
+      position:absolute;
+      right:9px;
+      top:50%;
+      transform:translateY(-50%);
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      font-size:11px;
+      padding:5px;
+    }
+
+
+    .supplier-layout{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    .supplier-account-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .supplier-account-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .supplier-account-header h2{margin:0 0 5px;font-size:20px}
+    .supplier-account-header p{margin:0;color:var(--muted);font-size:12px}
+    .contract-box{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--surface-soft);
+    }
+    .contract-box strong{display:block;font-size:13px}
+    .contract-box span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+    .supplier-view-banner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:12px 14px;
+      margin-bottom:16px;
+      border:1px solid rgba(94,143,240,.25);
+      background:rgba(94,143,240,.08);
+      border-radius:12px;
+      font-size:12px;
+    }
+    .nf-history{display:grid;gap:9px}
+    .nf-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:12px 13px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--surface-soft);
+    }
+    .nf-item strong{display:block;font-size:12px}
+    .nf-item span{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+    .invite-status{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:10px;
+      color:var(--info);
+      background:rgba(94,143,240,.1);
+    }
+    .invite-status::before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;background:currentColor;
+    }
+    @media(max-width:800px){
+      .supplier-account-grid{grid-template-columns:1fr}
+      .supplier-account-header{flex-direction:column}
+    }
+
+
+    .credential-box{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid rgba(217,255,98,.24);
+      background:rgba(217,255,98,.07);
+      border-radius:13px;
+    }
+    .credential-row{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      padding:10px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .credential-row:last-child{border-bottom:0}
+    .credential-row span{font-size:11px;color:var(--muted)}
+    .credential-row strong{font-size:13px;word-break:break-all}
+    .first-access-status{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:600;
+    }
+    .first-access-status.pending{
+      color:var(--warning);
+      background:rgba(244,185,66,.1);
+    }
+    .first-access-status.done{
+      color:var(--success);
+      background:rgba(66,184,120,.1);
+    }
+    .first-access-status::before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;
+      background:currentColor;
+    }
+    .supplier-only .sidebar-brand,
+    .supplier-only #sideDashboard,
+    .supplier-only #sideClients,
+    .supplier-only #sideSuppliers,
+    .supplier-only .sidebar-footer .sidebar-user div:last-child{
+      display:none!important;
+    }
+    .supplier-only .sidebar-nav::before{
+      content:"Minha conta";
+      display:block;
+      color:#f4f6f8;
+      font-size:13px;
+      font-weight:600;
+      padding:10px 11px;
+      background:#181c22;
+      border-radius:10px;
+      box-shadow:inset 2px 0 0 var(--accent);
+    }
+
+
+    .supplier-only{
+      grid-template-columns:1fr!important;
+    }
+    .supplier-only .sidebar{
+      display:none!important;
+    }
+    .supplier-only .topbar{
+      display:flex!important;
+      justify-content:flex-end;
+    }
+    .supplier-only .content{
+      max-width:1100px;
+      padding-top:34px;
+    }
+    .supplier-only #dashboardPage,
+    .supplier-only #clientsPage,
+    .supplier-only #suppliersPage{
+      display:none!important;
+    }
+    .supplier-only #supplierAccountPage.active{
+      display:block!important;
+    }
+
+
+    #supplierAccountPage{
+      color:var(--text);
+    }
+    #supplierAccountPage .card{
+      background:var(--surface)!important;
+      color:var(--text)!important;
+    }
+    #supplierAccountPage .input{
+      background:#0f1216!important;
+      color:var(--text)!important;
+      border:1px solid var(--line)!important;
+    }
+    #supplierAccountPage label,
+    #supplierAccountPage h1,
+    #supplierAccountPage h2,
+    #supplierAccountPage strong{
+      color:var(--text)!important;
+    }
+    #supplierAccountPage p,
+    #supplierAccountPage span{
+      color:var(--muted);
+    }
+    .supplier-only{
+      display:block!important;
+      min-height:100vh;
+      background:var(--bg);
+    }
+    .supplier-only .main-area{
+      display:block!important;
+      min-height:100vh;
+    }
+    .supplier-only .content{
+      display:block!important;
+      width:min(1100px,100%);
+      margin:0 auto;
+      padding:32px 24px;
+    }
+    .supplier-only #supplierAccountPage{
+      display:block!important;
+      opacity:1!important;
+      visibility:visible!important;
+    }
+
+
+    .login-options{
+      display:flex;
+      gap:8px;
+      margin-bottom:20px;
+      padding:4px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--surface-soft);
+    }
+    .login-option{
+      flex:1;
+      border:0;
+      border-radius:9px;
+      padding:9px 10px;
+      background:transparent;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:500;
+    }
+    .login-option.active{
+      background:var(--surface);
+      color:var(--text);
+      box-shadow:0 5px 14px rgba(0,0,0,.16);
+    }
+    .register-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .register-card{
+      width:min(720px,100%);
+    }
+    .file-note{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      margin-top:5px;
+      line-height:1.4;
+    }
+    .register-success{
+      padding:11px 12px;
+      border:1px solid rgba(66,184,120,.24);
+      background:rgba(66,184,120,.08);
+      color:#8ce0b1;
+      border-radius:10px;
+      font-size:11px;
+      margin-top:12px;
+    }
+    @media(max-width:680px){
+      .register-grid{grid-template-columns:1fr}
+      .register-card{padding:22px}
+    }
+
+
+    .supplier-shell{
+      display:grid;
+      grid-template-columns:210px 1fr;
+      min-height:100vh;
+      background:var(--bg);
+    }
+    .supplier-sidebar{
+      position:sticky;
+      top:0;
+      height:100vh;
+      padding:22px 14px;
+      background:#0f1115;
+      border-right:1px solid var(--line);
+      display:flex;
+      flex-direction:column;
+    }
+    .supplier-sidebar-brand{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:0 8px 24px;
+      font-size:15px;
+      font-weight:600;
+      letter-spacing:.08em;
+    }
+    .supplier-sidebar-nav{
+      display:grid;
+      gap:5px;
+    }
+    .supplier-tab-btn{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      border:0;
+      border-radius:10px;
+      padding:10px 11px;
+      background:transparent;
+      color:#8f96a3;
+      font-size:12px;
+      font-weight:500;
+      text-align:left;
+    }
+    .supplier-tab-btn:hover,
+    .supplier-tab-btn.active{
+      background:#181c22;
+      color:#f4f6f8;
+    }
+    .supplier-tab-btn.active{
+      box-shadow:inset 2px 0 0 var(--accent);
+    }
+    .supplier-sidebar-footer{
+      margin-top:auto;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+    }
+    .supplier-main{
+      min-width:0;
+      padding:30px 24px;
+    }
+    .supplier-main-inner{
+      width:min(1050px,100%);
+      margin:0 auto;
+    }
+    .supplier-tab-page{display:none}
+    .supplier-tab-page.active{display:block}
+    .supplier-hero{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+    .supplier-hero h1{
+      margin:0 0 6px;
+      font-size:28px;
+      font-weight:600;
+    }
+    .supplier-hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .supplier-summary-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    .supplier-summary-item{
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--surface-soft);
+    }
+    .supplier-summary-item.full{grid-column:1/-1}
+    .supplier-summary-item label{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      margin-bottom:7px;
+    }
+    .supplier-summary-item strong{
+      display:block;
+      color:var(--text);
+      font-size:13px;
+      font-weight:500!important;
+      line-height:1.45;
+      word-break:break-word;
+    }
+    .supplier-edit-form{display:none;margin-top:16px}
+    .supplier-edit-form.active{display:block}
+    @media(max-width:760px){
+      .supplier-shell{grid-template-columns:72px 1fr}
+      .supplier-sidebar{padding:18px 10px}
+      .supplier-sidebar-brand span:first-child,
+      .supplier-tab-btn span:last-child{display:none}
+      .supplier-sidebar-brand{justify-content:center;padding-left:0;padding-right:0}
+      .supplier-tab-btn{justify-content:center}
+      .supplier-main{padding:22px 14px}
+      .supplier-summary-grid{grid-template-columns:1fr}
+      .supplier-summary-item.full{grid-column:auto}
+    }
+
+
+    .file-link{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      border:0;
+      background:transparent;
+      color:var(--accent);
+      padding:0;
+      font-size:12px;
+      font-weight:500;
+      text-align:left;
+      cursor:pointer;
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+    .file-link:hover{opacity:.82}
+    .file-link.disabled{
+      color:var(--muted);
+      cursor:default;
+      text-decoration:none;
+      pointer-events:none;
+    }
+
+
+    .document-preview-modal{
+      width:min(900px,96vw);
+      max-height:92vh;
+      overflow:hidden;
+    }
+    .document-preview-body{
+      min-height:420px;
+      max-height:72vh;
+      overflow:auto;
+      display:grid;
+      place-items:center;
+      background:#090b0e;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+    .document-preview-body img{
+      max-width:100%;
+      max-height:68vh;
+      object-fit:contain;
+      border-radius:8px;
+    }
+    .document-preview-body iframe{
+      width:100%;
+      height:68vh;
+      border:0;
+      border-radius:8px;
+      background:#fff;
+    }
+
+
+    .save-feedback{
+      display:none;
+      align-items:center;
+      gap:8px;
+      margin-top:12px;
+      padding:11px 12px;
+      border-radius:10px;
+      font-size:11px;
+      border:1px solid var(--line);
+      background:var(--surface-soft);
+      color:var(--muted);
+    }
+    .save-feedback.show{display:flex}
+    .save-feedback.success{
+      color:#8ce0b1;
+      border-color:rgba(66,184,120,.25);
+      background:rgba(66,184,120,.08);
+    }
+    .save-feedback.error{
+      color:#ff9f9f;
+      border-color:rgba(230,108,108,.25);
+      background:rgba(230,108,108,.08);
+    }
+    .upload-selected{
+      display:block;
+      margin-top:7px;
+      font-size:10px;
+      color:var(--accent);
+      word-break:break-all;
+    }
+
+</style>
+</head>
+<body>
+  
+  <section id="loginScreen" class="login-screen">
+    <div id="loginCard" class="login-card">
+      <div class="login-brand">
+        <span>LACMA</span>
+        <span class="brand-fin">FIN</span>
+      </div>
+
+      <div class="login-options">
+        <button id="loginAccessTab" class="login-option active" onclick="showAccessForm()">Já tenho uma conta</button>
+        <button id="loginRegisterTab" class="login-option" onclick="showRegisterForm()">Sou prestador novo</button>
+      </div>
+
+      <div id="accessForm">
+        <h1>Bem-vinda</h1>
+        <p>Acesse sua conta para consultar suas informações e acompanhar a operação financeira.</p>
+
+        <div class="field">
+          <label>E-mail ou nome de acesso</label>
+          <input id="loginEmail" class="input" type="text" autocomplete="username" placeholder="Digite seu e-mail">
+        </div>
+
+        <div class="field">
+          <label>Senha</label>
+          <div class="password-wrap">
+            <input id="loginPassword" class="input" type="password" autocomplete="current-password" placeholder="Digite sua senha">
+            <button class="password-toggle" type="button" onclick="togglePassword(this)">Mostrar</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%" onclick="loginWithEmail()">Entrar</button>
+
+        <div class="login-separator">ou</div>
+
+        <button class="btn google-btn" onclick="loginWithGoogle()">
+          <span class="google-mark">G</span>
+          Continuar com Google
+        </button>
+
+        <div id="loginError" class="login-error hidden"></div>
+      </div>
+
+      <div id="registerForm" class="hidden">
+        <h1>Novo prestador</h1>
+        <p>Preencha seus dados para criar sua conta e acessar sua área exclusiva.</p>
+
+        <div class="register-grid">
+          <div class="field">
+            <label>Nome</label>
+            <input id="registerName" class="input" placeholder="Seu nome completo">
+          </div>
+
+          <div class="field">
+            <label>E-mail</label>
+            <input id="registerEmail" class="input" type="email" placeholder="seuemail@empresa.com">
+          </div>
+
+          <div class="field">
+            <label>Telefone</label>
+            <input id="registerPhone" class="input" placeholder="(00) 00000-0000">
+          </div>
+
+          <div class="field">
+            <label>RG</label>
+            <input id="registerRg" class="input" placeholder="Número do RG">
+          </div>
+
+          <div class="field">
+            <label>CPF</label>
+            <input id="registerCpf" class="input" placeholder="000.000.000-00">
+          </div>
+
+          <div class="field">
+            <label>PIX</label>
+            <input id="registerPix" class="input" placeholder="Chave PIX">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Documento com foto</label>
+          <input id="registerDocument" class="input" type="file" accept=".pdf,.png,.jpg,.jpeg">
+          <span class="file-note">Anexe RG, CNH ou outro documento oficial com foto.</span>
+        </div>
+
+        <div class="field">
+          <label>Detalhes do que será prestado</label>
+          <textarea id="registerServices" class="input" style="min-height:110px;resize:vertical" placeholder="Descreva os serviços que serão prestados"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Valores acordados</label>
+          <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#0f1216">
+            <span style="padding-left:12px;color:var(--muted);font-size:12px">R$</span>
+            <input id="registerValue" class="input" type="number" step="0.01" style="border:0;background:transparent" placeholder="0,00">
+          </div>
+        </div>
+
+        <div class="register-grid">
+          <div class="field">
+            <label>Crie uma senha</label>
+            <input id="registerPassword" class="input" type="password" placeholder="Mínimo de 6 caracteres">
+          </div>
+
+          <div class="field">
+            <label>Confirmar senha</label>
+            <input id="registerPasswordConfirm" class="input" type="password" placeholder="Repita a senha">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%" onclick="registerSupplier()">Criar minha conta</button>
+
+        <div id="registerError" class="login-error hidden"></div>
+        <div id="registerSuccess" class="register-success hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <section id="supplierPortal" class="hidden">
+    <div class="supplier-shell">
+      <aside class="supplier-sidebar">
+        <div class="supplier-sidebar-brand">
+          <span>LACMA</span>
+          <span class="brand-fin">FIN</span>
+        </div>
+
+        <nav class="supplier-sidebar-nav">
+          <button id="supplierTabProfileBtn" class="supplier-tab-btn active" onclick="showSupplierTab('supplierProfileTab')">
+            <span>◎</span>
+            <span>Meu cadastro</span>
+          </button>
+
+          <button id="supplierTabInvoicesBtn" class="supplier-tab-btn" onclick="showSupplierTab('supplierInvoicesTab')">
+            <span>▤</span>
+            <span>Minhas notas</span>
+          </button>
+        </nav>
+
+        <div class="supplier-sidebar-footer">
+          <button class="supplier-tab-btn" onclick="logoutPortal()">
+            <span>↪</span>
+            <span>Sair</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="supplier-main">
+        <div class="supplier-main-inner">
+
+          <section id="supplierProfileTab" class="supplier-tab-page active">
+            <div class="supplier-hero">
+              <div>
+                <h1 id="supplierPortalTitle">Meu cadastro</h1>
+                <p>Consulte seus dados e as informações acordadas com a LACMA.</p>
+              </div>
+              
+            </div>
+
+            <article class="card">
+              <div id="supplierEditLockNotice" class="notice" style="margin-bottom:16px">
+                Seus dados são somente para consulta. Alterações são realizadas exclusivamente pela LACMA.
+              </div>
+              <div class="supplier-summary-grid">
+                <div class="supplier-summary-item">
+                  <label>Nome</label>
+                  <strong id="supplierViewName">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>Razão social</label>
+                  <strong id="supplierViewLegalName">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>E-mail</label>
+                  <strong id="supplierViewEmail">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>Telefone</label>
+                  <strong id="supplierViewPhone">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>CPF</label>
+                  <strong id="supplierViewCpf">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>RG</label>
+                  <strong id="supplierViewRg">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>PIX</label>
+                  <strong id="supplierViewPix">—</strong>
+                </div>
+
+                <div class="supplier-summary-item">
+                  <label>Valor acordado</label>
+                  <strong id="supplierViewValue">R$ 0,00</strong>
+                </div>
+
+                <div class="supplier-summary-item full">
+                  <label>Serviços prestados</label>
+                  <strong id="supplierViewServices">—</strong>
+                </div>
+
+                <div class="supplier-summary-item full">
+                  <label>Documento com foto</label>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                    <strong id="supplierViewDocumentName">Nenhum documento anexado</strong>
+                    <button id="supplierViewDocument" class="btn btn-secondary btn-small" type="button" onclick="openSupplierDocument()" disabled>Visualizar</button>
+                  </div>
+                </div>
+
+                <div class="supplier-summary-item full">
+                  <label>Contrato</label>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                    <strong id="supplierViewContractName">Aguardando envio pelo Jurídico</strong>
+                    <button id="supplierViewContract" class="btn btn-secondary btn-small" type="button" onclick="openSupplierContract()" disabled>Visualizar</button>
+                  </div>
+                  <span style="display:block;margin-top:6px;color:var(--muted);font-size:10px">
+                    O contrato aparecerá aqui automaticamente após ser enviado pela área Jurídica.
+                  </span>
+                </div>
+              </div>
+
+              </article>
+          </section>
+
+          <section id="supplierInvoicesTab" class="supplier-tab-page">
+            <div class="supplier-hero">
+              <div>
+                <h1>Minhas notas</h1>
+                <p>Emita novas notas fiscais e acompanhe o histórico.</p>
+              </div>
+              <button class="btn btn-primary" onclick="openSupplierNfModal()">Emitir NF</button>
+            </div>
+
+            <article class="card">
+              <div id="supplierPortalNfHistory" class="nf-history"></div>
+            </article>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </section>
+
+
+  <div id="portalApp" class="app app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span>LACMA</span>
+        <span class="brand-fin">FIN</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button id="sideDashboard" class="sidebar-link active" onclick="showPortalPage('dashboardPage')">
+          <span class="sidebar-icon">◫</span>
+          <span>Dashboard</span>
+        </button>
+        <button id="sideClients" class="sidebar-link" onclick="showPortalPage('clientsPage')">
+          <span class="sidebar-icon">◎</span>
+          <span>Clientes</span>
+        </button>
+        <button id="sideSuppliers" class="sidebar-link" onclick="showPortalPage('suppliersPage')">
+          <span class="sidebar-icon">◇</span>
+          <span>Fornecedores</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user" style="margin-bottom:10px">
+          <div class="profile">L</div>
+          <div>
+            <strong>Luana</strong>
+            <span>Administradora</span>
+          </div>
+        </div>
+        <button class="sidebar-link" onclick="logoutPortal()">
+          <span class="sidebar-icon">↪</span>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="brand">
+          <span>LACMA</span>
+          <span class="brand-fin">FIN</span>
+        </div>
+        <nav class="main-nav">
+          <button id="navDashboard" class="nav-btn active" onclick="showPortalPage('dashboardPage')">Dashboard</button>
+          <button id="navClients" class="nav-btn" onclick="showPortalPage('clientsPage')">Clientes</button>
+        </nav>
+      </div>
+      <div class="profile">L</div>
+    </header>
+
+    <main class="content">
+      <section id="dashboardPage" class="portal-page active">
+      <div class="page-head">
+        <div>
+          <h1>Visão geral</h1>
+          <p>Resumo financeiro e operacional de agosto de 2026.</p>
+        </div>
+      </div>
+
+      <section class="today">
+        <div>
+          <div class="today-title">Minha rotina hoje</div>
+          <div class="today-list">
+            <div class="today-item">
+              <strong>Emitir NF da Entre Telecom</strong>
+              <span>R$ 8.900 · vence dia 15</span>
+            </div>
+            <div class="today-item">
+              <strong>Aprovar NF da Marina Souza</strong>
+              <span>R$ 2.000 · enviada hoje</span>
+            </div>
+            <div class="today-item">
+              <strong>Pagar João Lima</strong>
+              <span>R$ 1.400 · pagamento aprovado</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Abrir rotina de hoje')">Ver rotina</button>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Financeiro</h2>
+          <span>Mês atual</span>
+        </div>
+
+        <div class="grid-4">
+          <article class="card">
+            <div class="metric-label">Entradas previstas</div>
+            <div class="metric-value">R$ 82.500</div>
+            <div class="metric-note">Cobranças previstas no mês</div>
+          </article>
+
+          <article class="card">
+            <div class="metric-label">Recebido</div>
+            <div class="metric-value">R$ 48.300</div>
+            <div class="metric-note">Valores já recebidos</div>
+          </article>
+
+          <article class="card">
+            <div class="metric-label">Despesas</div>
+            <div class="metric-value">R$ 31.240</div>
+            <div class="metric-note">Prestadores e despesas da agência</div>
+          </article>
+
+          <article class="card profit">
+            <div class="metric-label">Lucro previsto</div>
+            <div class="metric-value">R$ 51.260</div>
+            <div class="metric-note">Entradas previstas menos despesas</div>
+          </article>
+        </div>
+      </section>
+
+      
+      <section class="section">
+        <div class="section-head">
+          <h2>Pendências financeiras</h2>
+          <span>Acompanhe o que ainda precisa ser resolvido</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <div class="section-head" style="margin-bottom:14px">
+              <h2 style="font-size:14px">Prestadores pendentes para pagamento</h2>
+              <span>3 pendências</span>
+            </div>
+
+            <div class="pending-list">
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot pending"></span>
+                  <div>
+                    <strong>Marina Souza</strong>
+                    <span>Aguardando aprovação</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 2.000</strong>
+                  <span>NF 102</span>
+                </div>
+              </div>
+
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot approved"></span>
+                  <div>
+                    <strong>João Lima</strong>
+                    <span>Aprovada para pagamento</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 1.400</strong>
+                  <span>NF 088</span>
+                </div>
+              </div>
+
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot overdue"></span>
+                  <div>
+                    <strong>Carla Reis</strong>
+                    <span>Pagamento atrasado</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 3.000</strong>
+                  <span>NF 071</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="section-head" style="margin-bottom:14px">
+              <h2 style="font-size:14px">Notas fiscais pendentes para emissão</h2>
+              <span>3 pendências</span>
+            </div>
+
+            <div class="pending-list">
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot pending"></span>
+                  <div>
+                    <strong>Entre Telecom</strong>
+                    <span>Emitir hoje · vence em 15/08</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 8.900</strong>
+                  <span>Mensalidade</span>
+                </div>
+              </div>
+
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot pending"></span>
+                  <div>
+                    <strong>Furious Moto Parts</strong>
+                    <span>Emitir em 13/08 · vence em 18/08</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 2.300</strong>
+                  <span>Mensalidade</span>
+                </div>
+              </div>
+
+              <div class="pending-item">
+                <div class="person">
+                  <span class="status-dot pending"></span>
+                  <div>
+                    <strong>EBF Capacetes</strong>
+                    <span>Emitir em 20/08 · vence em 25/08</span>
+                  </div>
+                </div>
+                <div class="pending-value">
+                  <strong>R$ 4.100</strong>
+                  <span>Mensalidade</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h2>Calendário financeiro</h2>
+          <span>Clique em um evento para ver os detalhes</span>
+        </div>
+
+        <article class="card">
+          <div class="calendar">
+            <div class="day-label">Dom</div>
+            <div class="day-label">Seg</div>
+            <div class="day-label">Ter</div>
+            <div class="day-label">Qua</div>
+            <div class="day-label">Qui</div>
+            <div class="day-label">Sex</div>
+            <div class="day-label">Sáb</div>
+
+            <div class="day muted"><div class="day-number">26</div></div>
+            <div class="day muted"><div class="day-number">27</div></div>
+            <div class="day muted"><div class="day-number">28</div></div>
+            <div class="day muted"><div class="day-number">29</div></div>
+            <div class="day muted"><div class="day-number">30</div></div>
+            <div class="day muted"><div class="day-number">31</div></div>
+
+            <div class="day"><div class="day-number">1</div></div>
+            <div class="day"><div class="day-number">2</div></div>
+            <div class="day"><div class="day-number">3</div></div>
+            <div class="day"><div class="day-number">4</div></div>
+            <div class="day"><div class="day-number">5</div></div>
+            <div class="day"><div class="day-number">6</div></div>
+            <div class="day"><div class="day-number">7</div></div>
+            <div class="day"><div class="day-number">8</div></div>
+            <div class="day"><div class="day-number">9</div></div>
+
+            <div class="day active" onclick="openEvent('10 de agosto','Entre Telecom','R$ 8.900','Emitir nota fiscal','Vencimento em 15/08')">
+              <div class="day-number">10</div>
+              <span class="calendar-event invoice">Emitir NF · Entre</span>
+            </div>
+
+            <div class="day"><div class="day-number">11</div></div>
+            <div class="day"><div class="day-number">12</div></div>
+
+            <div class="day active" onclick="openEvent('13 de agosto','Furious Moto Parts','R$ 2.300','Emitir nota fiscal','Vencimento em 18/08')">
+              <div class="day-number">13</div>
+              <span class="calendar-event invoice">Emitir NF · Furious</span>
+            </div>
+
+            <div class="day"><div class="day-number">14</div></div>
+
+            <div class="day active" onclick="openEvent('15 de agosto','Entre Telecom','R$ 8.900','Recebimento','Cobrança mensal')">
+              <div class="day-number">15</div>
+              <span class="calendar-event receive">Receber · Entre</span>
+            </div>
+
+            <div class="day"><div class="day-number">16</div></div>
+
+            <div class="day active" onclick="openEvent('17 de agosto','João Lima','R$ 1.400','Pagamento','NF 088 aprovada')">
+              <div class="day-number">17</div>
+              <span class="calendar-event pay">Pagar · João</span>
+            </div>
+
+            <div class="day active" onclick="openEvent('18 de agosto','Furious Moto Parts','R$ 2.300','Recebimento','Cobrança mensal')">
+              <div class="day-number">18</div>
+              <span class="calendar-event receive">Receber · Furious</span>
+            </div>
+
+            <div class="day"><div class="day-number">19</div></div>
+
+            <div class="day active" onclick="openEvent('20 de agosto','EBF Capacetes','R$ 4.100','Emitir nota fiscal','Vencimento em 25/08')">
+              <div class="day-number">20</div>
+              <span class="calendar-event invoice">Emitir NF · EBF</span>
+            </div>
+
+            <div class="day"><div class="day-number">21</div></div>
+            <div class="day"><div class="day-number">22</div></div>
+            <div class="day"><div class="day-number">23</div></div>
+            <div class="day"><div class="day-number">24</div></div>
+
+            <div class="day active" onclick="openEvent('25 de agosto','EBF Capacetes','R$ 4.100','Recebimento','Cobrança mensal')">
+              <div class="day-number">25</div>
+              <span class="calendar-event receive">Receber · EBF</span>
+            </div>
+
+            <div class="day"><div class="day-number">26</div></div>
+
+            <div class="day active" onclick="openEvent('27 de agosto','Contrato Entre','—','Renovação de contrato','Revisar reajuste anual')">
+              <div class="day-number">27</div>
+              <span class="calendar-event renewal">Renovar · Entre</span>
+            </div>
+
+            <div class="day"><div class="day-number">28</div></div>
+            <div class="day"><div class="day-number">29</div></div>
+            <div class="day"><div class="day-number">30</div></div>
+            <div class="day"><div class="day-number">31</div></div>
+          </div>
+
+          <div class="legend">
+            <span><i class="invoice"></i> Emitir NF</span>
+            <span><i class="receive"></i> Recebimentos</span>
+            <span><i class="pay"></i> Pagamentos</span>
+            <span><i class="renewal"></i> Renovação de contrato</span>
+          </div>
+        </article>
+      </section>
+
+      </section>
+
+      <section id="clientsPage" class="portal-page">
+        <div class="page-head">
+          <div>
+            <h1>Clientes</h1>
+            <p>Cadastre, acompanhe e organize os clientes da agência.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openClientModal()">Adicionar cliente</button>
+        </div>
+
+        <div class="client-toolbar">
+          <input id="clientSearch" class="client-search" placeholder="Buscar por razão social, nome ou CNPJ" oninput="renderClients()">
+          <span id="clientSummary" style="color:var(--muted);font-size:12px"></span>
+        </div>
+
+        <div class="client-table-wrap">
+          <table class="client-table">
+            <thead>
+              <tr>
+                <th>Razão social</th>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="clientsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="suppliersPage" class="portal-page">
+        <div class="page-head">
+          <div>
+            <h1>Fornecedores</h1>
+            <p>Cadastre os prestadores e acompanhe o acesso de cada um.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openSupplierModal()">Adicionar fornecedor</button>
+        </div>
+
+        <div class="client-toolbar">
+          <input id="supplierSearch" class="client-search" placeholder="Buscar por nome, razão social ou e-mail" oninput="renderSuppliers()">
+          <span id="supplierSummary" style="color:var(--muted);font-size:12px"></span>
+        </div>
+
+        <div class="client-table-wrap">
+          <table class="client-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Razão social</th>
+                <th>E-mail</th>
+                <th>Primeiro acesso</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="suppliersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      
+      <section id="supplierAccountPage" class="portal-page">
+        <div class="supplier-account-header">
+          <div>
+            <h1 id="supplierAccountTitle" style="margin:0 0 6px;font-size:28px">Minha conta</h1>
+            <p id="supplierAccountSubtitle" style="margin:0;color:var(--muted);font-size:12px">
+              Consulte seus dados, contrato e notas fiscais.
+            </p>
+          </div>
+          <span id="supplierAdminViewLabel" style="color:var(--muted);font-size:12px">Visualização administrativa</span>
+        </div>
+
+
+          <div id="supplierOnlyActions" class="hidden" style="display:flex;justify-content:flex-end;margin-bottom:16px">
+            <button class="btn btn-primary" onclick="openSupplierNfModal()">Emitir NF</button>
+          </div>
+        <div class="supplier-layout">
+          <article class="card">
+            <div class="section-head">
+              <h2>Meus dados</h2>
+              <span>Informações da sua conta</span>
+            </div>
+
+            <div class="supplier-account-grid">
+              <div class="field">
+                <label>Nome</label>
+                <input id="accountSupplierName" class="input" disabled>
+              </div>
+
+              <div class="field">
+                <label>Razão social</label>
+                <input id="accountSupplierLegalName" class="input" disabled>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>E-mail</label>
+              <input id="accountSupplierEmail" class="input" disabled>
+            </div>
+
+            <div class="supplier-account-grid">
+              <div class="field">
+                <label>Telefone</label>
+                <input id="accountSupplierPhone" class="input" disabled>
+              </div>
+              <div class="field">
+                <label>CPF</label>
+                <input id="accountSupplierCpf" class="input" disabled>
+              </div>
+            </div>
+
+            <div class="supplier-account-grid">
+              <div class="field">
+                <label>RG</label>
+                <input id="accountSupplierRg" class="input" disabled>
+              </div>
+              <div class="field">
+                <label>Documento com foto</label>
+                <button id="accountSupplierDocument" class="file-link disabled" type="button" onclick="openAdminSupplierDocument()">Nenhum documento anexado</button>
+                <input id="accountSupplierDocumentUpload" class="input" type="file" accept=".png,.jpg,.jpeg,.pdf" onchange="showSelectedSupplierDocument(this)">
+                <span id="accountSupplierDocumentSelected" class="upload-selected"></span>
+                <span class="file-note">O administrador pode substituir o documento quando necessário.</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>PIX</label>
+              <input id="accountSupplierPix" class="input" placeholder="Digite sua chave PIX">
+            </div>
+
+            <div class="field">
+              <label>Serviços contratados</label>
+              <textarea id="accountSupplierServices" class="input" style="min-height:120px;resize:vertical" placeholder="Descreva os serviços contratados"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Valor contratado</label>
+              <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#0f1216">
+                <span style="padding-left:12px;color:var(--muted);font-size:12px">R$</span>
+                <input id="accountSupplierValue" class="input" type="number" step="0.01" style="border:0;background:transparent">
+              </div>
+            </div>
+
+            <div class="contract-box">
+              <div>
+                <strong>Contrato</strong>
+                <button id="accountSupplierContractName" class="file-link disabled" type="button" onclick="openAdminSupplierContract()">Aguardando envio pelo Jurídico</button>
+              </div>
+              <span class="client-status inactive">Jurídico</span>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+              
+            <div class="flag-row" style="margin-top:16px">
+              <div>
+                <strong>Permitir edição pelo prestador</strong>
+                <span>Ative somente quando quiser liberar temporariamente a edição dos dados.</span>
+              </div>
+              <label class="switch">
+                <input id="allowSupplierSelfEdit" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+<div id="supplierSaveFeedback" class="save-feedback"></div>
+              <button class="btn btn-primary" type="button" onclick="saveSupplierAccount(this)">Salvar meus dados</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="section-head">
+              <h2>Minhas notas fiscais</h2>
+              <span>Histórico completo</span>
+            </div>
+            <div id="supplierNfHistory" class="nf-history"></div>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+
+
+
+
+  <div id="documentPreviewModal" class="modal-bg hidden">
+    <div class="modal document-preview-modal">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+        <div>
+          <h3 id="documentPreviewTitle" style="margin:0 0 4px">Documento</h3>
+          <span id="documentPreviewName" style="color:var(--muted);font-size:11px"></span>
+        </div>
+        <button class="btn btn-secondary btn-small" onclick="closeDocumentPreview()">Fechar</button>
+      </div>
+
+      <div id="documentPreviewBody" class="document-preview-body"></div>
+    </div>
+  </div>
+
+  <div id="deleteSupplierModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3>Excluir fornecedor</h3>
+      <p id="deleteSupplierMessage" style="color:var(--muted);font-size:12px;line-height:1.6;margin:0">
+        Confirme a exclusão deste fornecedor.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeDeleteSupplierModal()">Cancelar</button>
+        <button class="btn btn-danger" onclick="confirmDeleteSupplier()">Excluir fornecedor</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="supplierCredentialModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3>Acesso criado</h3>
+      <p style="color:var(--muted);font-size:12px;line-height:1.6;margin:0">
+        Copie os dados abaixo e envie ao fornecedor. No primeiro acesso, ele será obrigado a criar uma nova senha.
+      </p>
+
+      <div class="credential-box">
+        <div class="credential-row">
+          <span>E-mail</span>
+          <strong id="credentialEmail"></strong>
+        </div>
+        <div class="credential-row">
+          <span>Senha provisória</span>
+          <strong id="credentialPassword"></strong>
+        </div>
+        <div class="credential-row">
+          <span>Também pode entrar com</span>
+          <strong id="credentialAccessName"></strong>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeCredentialModal()">Fechar</button>
+        <button class="btn btn-primary" onclick="copyCredentials()">Copiar acesso</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="firstAccessModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3>Crie sua nova senha</h3>
+      <p style="color:var(--muted);font-size:12px;line-height:1.6;margin:0 0 16px">
+        Esta senha substituirá a senha provisória usada no primeiro acesso.
+      </p>
+
+      <div class="field">
+        <label>Nova senha</label>
+        <input id="newSupplierPassword" class="input" type="password" placeholder="Digite a nova senha">
+      </div>
+
+      <div class="field">
+        <label>Confirmar nova senha</label>
+        <input id="confirmSupplierPassword" class="input" type="password" placeholder="Repita a nova senha">
+      </div>
+
+      <div id="firstAccessError" class="login-error hidden"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" style="width:100%" onclick="completeFirstAccess()">Salvar e entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="supplierModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3 id="supplierModalTitle">Adicionar fornecedor</h3>
+
+      <div class="field">
+        <label>Nome</label>
+        <input id="supplierName" class="input" placeholder="Nome do prestador">
+      </div>
+
+      <div class="field">
+        <label>Razão social</label>
+        <input id="supplierLegalName" class="input" placeholder="Razão social">
+      </div>
+
+      <div class="field">
+        <label>E-mail</label>
+        <input id="supplierEmail" class="input" type="email" placeholder="email@prestador.com">
+      </div>
+
+      <div class="field">
+        <label>Senha provisória</label>
+        <div style="display:flex;gap:8px">
+          <input id="supplierTemporaryPassword" class="input" readonly placeholder="Clique em gerar senha">
+          <button class="btn btn-secondary" type="button" onclick="fillTemporaryPassword()">Gerar senha</button>
+        </div>
+        <span style="color:var(--muted);font-size:10px">O fornecedor usará esta senha no primeiro acesso e depois criará uma nova.</span>
+      </div>
+
+      <div class="flag-row">
+        <div>
+          <strong>Fornecedor ativo</strong>
+          <span>Desative quando o prestador não estiver mais ativo.</span>
+        </div>
+        <label class="switch">
+          <input id="supplierActive" type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeSupplierModal()">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveSupplier()">Salvar e gerar acesso</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div id="supplierNfModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3>Emitir nota fiscal</h3>
+      <p style="margin:0 0 16px;color:var(--muted);font-size:12px;line-height:1.5">
+        Preencha todos os campos e anexe a nota fiscal.
+      </p>
+
+      <div class="field">
+        <label>Nota fiscal *</label>
+        <input id="supplierNfFile" type="file" class="input" accept=".pdf,.png,.jpg,.jpeg">
+        <span id="supplierNfFileName" class="upload-selected"></span>
+      </div>
+
+      <div class="field">
+        <label>Valor da nota *</label>
+        <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#0f1216">
+          <span style="padding-left:12px;color:var(--muted);font-size:12px">R$</span>
+          <input id="supplierNfValue" class="input" type="number" min="0" step="0.01" style="border:0;background:transparent" placeholder="0,00">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Chave PIX *</label>
+        <input id="supplierNfPix" class="input" placeholder="Informe a chave PIX para pagamento">
+      </div>
+
+      <div class="field">
+        <label>Descrição completa do serviço *</label>
+        <textarea id="supplierNfDescription" class="input" style="min-height:120px;resize:vertical" placeholder="Descreva detalhadamente o serviço prestado"></textarea>
+      </div>
+
+      <div id="supplierNfFeedback" class="save-feedback"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" type="button" onclick="closeSupplierNfModal()">Cancelar</button>
+        <button id="submitSupplierNfButton" class="btn btn-primary" type="button" onclick="submitSupplierNf(this)">Enviar NF</button>
+      </div>
+    </div>
+  </div>
+
+<div id="clientModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3 id="clientModalTitle">Adicionar cliente</h3>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Razão social</label>
+          <input id="clientLegalName" class="input" placeholder="Ex.: Entre Telecom Ltda.">
+        </div>
+        <div class="field">
+          <label>Nome</label>
+          <input id="clientName" class="input" placeholder="Ex.: Entre">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>CNPJ</label>
+        <input id="clientCnpj" class="input" placeholder="00.000.000/0000-00">
+      </div>
+
+      <div class="flag-row">
+        <div>
+          <strong>Cliente ativo</strong>
+          <span>Desative quando o cliente não fizer mais parte da carteira.</span>
+        </div>
+        <label class="switch">
+          <input id="clientActive" type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeClientModal()">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveClient()">Salvar cliente</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="eventModal" class="modal-bg hidden">
+    <div class="modal">
+      <h3 id="eventTitle">Detalhes</h3>
+      <div class="modal-row"><span>Responsável</span><strong id="eventEntity"></strong></div>
+      <div class="modal-row"><span>Valor</span><strong id="eventValue"></strong></div>
+      <div class="modal-row"><span>Tipo</span><strong id="eventType"></strong></div>
+      <div class="modal-row"><span>Observação</span><strong id="eventNote"></strong></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeEvent()">Fechar</button>
+        <button class="btn btn-primary" onclick="alert('Ação aberta')">Abrir ação</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const defaultClients = [
+      {id:1, legalName:"Entre Telecom Ltda.", name:"Entre", cnpj:"12.456.789/0001-10", active:true},
+      {id:2, legalName:"Furious Moto Parts Ltda.", name:"Furious", cnpj:"33.555.777/0001-20", active:true},
+      {id:3, legalName:"EBF Capacetes Ltda.", name:"EBF", cnpj:"22.777.444/0001-08", active:false}
+    ];
+
+    let clients = JSON.parse(localStorage.getItem("lacmaFinClients") || "null") || defaultClients;
+    let editingClientId = null;
+    let deletingClientId = null;
+
+    function persistClients(){
+      localStorage.setItem("lacmaFinClients", JSON.stringify(clients));
+  
+  
+    document.getElementById("supplierNfFile").addEventListener("change", function(){
+      const file = this.files[0];
+      document.getElementById("supplierNfFileName").textContent =
+        file ? `Arquivo selecionado: ${file.name}` : "";
+    });
+
+    renderClients();
+    }
+
+    function showPortalPage(pageId){
+      document.querySelectorAll(".portal-page").forEach(page => page.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      document.getElementById("sideDashboard").classList.toggle("active", pageId === "dashboardPage");
+      document.getElementById("sideClients").classList.toggle("active", pageId === "clientsPage");
+      document.getElementById("sideSuppliers").classList.toggle("active", pageId === "suppliersPage" || pageId === "supplierAccountPage");
+      if(pageId === "clientsPage") renderClients();
+      if(pageId === "suppliersPage") renderSuppliers();
+      if(pageId === "supplierAccountPage") renderSupplierAccount();
+    }
+
+    function openClientModal(clientId = null){
+      editingClientId = clientId;
+      const client = clients.find(item => item.id === clientId);
+
+      document.getElementById("clientModalTitle").textContent = client ? "Editar cliente" : "Adicionar cliente";
+      document.getElementById("clientLegalName").value = client?.legalName || "";
+      document.getElementById("clientName").value = client?.name || "";
+      document.getElementById("clientCnpj").value = client?.cnpj || "";
+      document.getElementById("clientActive").checked = client ? client.active : true;
+      document.getElementById("clientModal").classList.remove("hidden");
+    }
+
+    function closeClientModal(){
+      document.getElementById("clientModal").classList.add("hidden");
+      editingClientId = null;
+    }
+
+    function saveClient(){
+      const payload = {
+        legalName: document.getElementById("clientLegalName").value.trim(),
+        name: document.getElementById("clientName").value.trim(),
+        cnpj: document.getElementById("clientCnpj").value.trim(),
+        active: document.getElementById("clientActive").checked
+      };
+
+      if(editingClientId){
+        const index = clients.findIndex(item => item.id === editingClientId);
+        if(index >= 0) clients[index] = {...clients[index], ...payload};
+      } else {
+        clients.unshift({id: Date.now(), ...payload});
+      }
+
+      persistClients();
+      closeClientModal();
+    }
+
+    function deleteClient(clientId){
+      const client = clients.find(item => item.id === clientId);
+      if(!client) return;
+
+      deletingClientId = clientId;
+      document.getElementById("deleteClientMessage").textContent =
+        `Você deseja excluir ${client.name || client.legalName || "este cliente"}? Esta ação remove o cadastro da lista.`;
+      document.getElementById("deleteClientModal").classList.remove("hidden");
+    }
+
+    function closeDeleteClientModal(){
+      document.getElementById("deleteClientModal").classList.add("hidden");
+      deletingClientId = null;
+    }
+
+    function confirmDeleteClient(){
+      if(deletingClientId === null) return;
+      clients = clients.filter(item => item.id !== deletingClientId);
+      persistClients();
+      closeDeleteClientModal();
+    }
+
+    function toggleClientStatus(clientId){
+      const client = clients.find(item => item.id === clientId);
+      if(!client) return;
+      client.active = !client.active;
+      persistClients();
+    }
+
+    function renderClients(){
+      const query = (document.getElementById("clientSearch")?.value || "").toLowerCase();
+      const filtered = clients.filter(client =>
+        `${client.legalName} ${client.name} ${client.cnpj}`.toLowerCase().includes(query)
+      );
+
+      document.getElementById("clientSummary").textContent =
+        `${clients.filter(client => client.active).length} ativos · ${clients.filter(client => !client.active).length} inativos`;
+
+      document.getElementById("clientsTable").innerHTML = filtered.length
+        ? filtered.map(client => `
+          <tr>
+            <td><strong>${client.legalName || "—"}</strong></td>
+            <td>${client.name || "—"}</td>
+            <td>${client.cnpj || "—"}</td>
+            <td>
+              <button class="client-status ${client.active ? "active" : "inactive"}" onclick="toggleClientStatus(${client.id})">
+                ${client.active ? "Ativo" : "Inativo"}
+              </button>
+            </td>
+            <td>
+              <div class="row-actions">
+                <button class="btn btn-secondary btn-small" onclick="openClientModal(${client.id})">Editar</button>
+                <button class="btn btn-danger btn-small" onclick="deleteClient(${client.id})">Excluir</button>
+              </div>
+            </td>
+          </tr>
+        `).join("")
+        : `<tr><td colspan="5" class="empty-state">Nenhum cliente encontrado.</td></tr>`;
+    }
+
+    function openEvent(title, entity, value, type, note){
+      document.getElementById('eventTitle').textContent = title;
+      document.getElementById('eventEntity').textContent = entity;
+      document.getElementById('eventValue').textContent = value;
+      document.getElementById('eventType').textContent = type;
+      document.getElementById('eventNote').textContent = note;
+      document.getElementById('eventModal').classList.remove('hidden');
+    }
+
+    function closeEvent(){
+      document.getElementById('eventModal').classList.add('hidden');
+    }
+
+    document.getElementById('eventModal').addEventListener('click', function(event){
+      if(event.target === this) closeEvent();
+    });
+
+    document.getElementById('clientModal').addEventListener('click', function(event){
+      if(event.target === this) closeClientModal();
+    });
+
+    document.getElementById('deleteClientModal').addEventListener('click', function(event){
+      if(event.target === this) closeDeleteClientModal();
+    });
+
+    document.getElementById('supplierModal').addEventListener('click', function(event){
+      if(event.target === this) closeSupplierModal();
+    });
+
+    document.getElementById('supplierNfModal').addEventListener('click', function(event){
+      if(event.target === this) closeSupplierNfModal();
+    });
+
+    document.getElementById("supplierCredentialModal").addEventListener("click", function(event){
+      if(event.target === this) closeCredentialModal();
+    });
+
+    document.getElementById("deleteSupplierModal").addEventListener("click", function(event){
+      if(event.target === this) closeDeleteSupplierModal();
+    });
+
+    document.getElementById("documentPreviewModal").addEventListener("click", function(event){
+      if(event.target === this) closeDocumentPreview();
+    });
+
+
+
+
+    const defaultSuppliers = [
+      {
+        id: 1,
+        name: "Marina Souza",
+        legalName: "MS Design Ltda.",
+        email: "marina@msdesign.com.br",
+        active: true,
+        inviteStatus: "Acesso criado",
+        temporaryPassword: "Lacma@9482",
+        password: "Lacma@9482",
+        firstAccessPending: true,
+        phone: "",
+        rg: "",
+        cpf: "",
+        documentName: "",
+        documentData: "",
+        contractData: "",
+        pix: "",
+        services: "",
+        contractValue: "",
+        contractName: "",
+        invoices: []
+      }
+    ];
+
+    let suppliers = JSON.parse(localStorage.getItem("lacmaFinSuppliers") || "null") || defaultSuppliers;
+    suppliers = suppliers.map(supplier => ({
+      ...supplier,
+      email: (supplier.email || "").trim().toLowerCase(),
+      password: supplier.password || supplier.temporaryPassword || "",
+      temporaryPassword: supplier.temporaryPassword || supplier.password || "",
+      firstAccessPending: supplier.firstAccessPending !== false,
+      allowSelfEdit: supplier.allowSelfEdit === true,
+      documentData: supplier.documentData || "",
+      contractData: supplier.contractData || "",
+      documentSaved: supplier.documentSaved === true,
+      documentType: supplier.documentType || ""
+    }));
+    localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+    let editingSupplierId = null;
+    let currentSupplierId = null;
+    let deletingSupplierId = null;
+    let currentUserRole = sessionStorage.getItem("lacmaFinRole") || null;
+    let loggedSupplierId = Number(sessionStorage.getItem("lacmaFinSupplierId")) || null;
+    let lastGeneratedCredentials = null;
+
+    function persistSuppliers(){
+      localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+      renderSuppliers();
+      if(currentSupplierId) renderSupplierAccount();
+    }
+
+    function openSupplierModal(supplierId = null){
+      editingSupplierId = supplierId;
+      const supplier = suppliers.find(item => item.id === supplierId);
+
+      document.getElementById("supplierModalTitle").textContent = supplier ? "Editar fornecedor" : "Adicionar fornecedor";
+      document.getElementById("supplierName").value = supplier?.name || "";
+      document.getElementById("supplierLegalName").value = supplier?.legalName || "";
+      document.getElementById("supplierEmail").value = supplier?.email || "";
+      document.getElementById("supplierActive").checked = supplier ? supplier.active : true;
+      document.getElementById("supplierTemporaryPassword").value =
+        supplier?.temporaryPassword || (supplier ? "" : generateTemporaryPassword());
+      document.getElementById("supplierModal").classList.remove("hidden");
+    }
+
+    function closeSupplierModal(){
+      document.getElementById("supplierModal").classList.add("hidden");
+      editingSupplierId = null;
+    }
+
+
+    function generateTemporaryPassword(){
+      const number = Math.floor(1000 + Math.random() * 9000);
+      return `Lacma@${number}`;
+    }
+
+    function fillTemporaryPassword(){
+      document.getElementById("supplierTemporaryPassword").value = generateTemporaryPassword();
+    }
+
+    function showGeneratedCredentials(email, password){
+      lastGeneratedCredentials = {email, password};
+      document.getElementById("credentialEmail").textContent = email || "E-mail não informado";
+      document.getElementById("credentialPassword").textContent = password;
+      const supplier = suppliers.find(item => item.email === (email || "").toLowerCase());
+      document.getElementById("credentialAccessName").textContent = supplier?.name || "Nome cadastrado";
+      document.getElementById("supplierCredentialModal").classList.remove("hidden");
+    }
+
+    function closeCredentialModal(){
+      document.getElementById("supplierCredentialModal").classList.add("hidden");
+    }
+
+    async function copyCredentials(){
+      if(!lastGeneratedCredentials) return;
+      const text = `Acesso LACMA FIN\nE-mail: ${lastGeneratedCredentials.email}\nSenha provisória: ${lastGeneratedCredentials.password}`;
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("Acesso copiado.");
+      }catch{
+        window.prompt("Copie o acesso:", text);
+      }
+    }
+
+    function saveSupplier(){
+      const payload = {
+        name: document.getElementById("supplierName").value.trim(),
+        legalName: document.getElementById("supplierLegalName").value.trim(),
+        email: document.getElementById("supplierEmail").value.trim().toLowerCase(),
+        active: document.getElementById("supplierActive").checked
+      };
+
+      if(editingSupplierId){
+        const index = suppliers.findIndex(item => item.id === editingSupplierId);
+        if(index >= 0){
+          suppliers[index] = {...suppliers[index], ...payload};
+          const generatedPassword = document.getElementById("supplierTemporaryPassword").value;
+          if(generatedPassword && generatedPassword !== suppliers[index].temporaryPassword){
+            suppliers[index].temporaryPassword = generatedPassword;
+            suppliers[index].password = generatedPassword;
+            suppliers[index].firstAccessPending = true;
+          }
+        }
+        persistSuppliers();
+        closeSupplierModal();
+        return;
+      }
+
+      const temporaryPassword =
+        document.getElementById("supplierTemporaryPassword").value || generateTemporaryPassword();
+      suppliers.unshift({
+        id: Date.now(),
+        ...payload,
+        email: (payload.email || "").trim().toLowerCase(),
+        inviteStatus: "Acesso criado",
+        temporaryPassword,
+        password: temporaryPassword,
+        firstAccessPending: true,
+        allowSelfEdit: false,
+        pix: "",
+        services: "",
+        contractValue: "",
+        contractName: "",
+        invoices: []
+      });
+
+      persistSuppliers();
+      closeSupplierModal();
+      showGeneratedCredentials(payload.email, temporaryPassword);
+    }
+
+    function resetSupplierAccess(supplierId){
+      const supplier = suppliers.find(item => item.id === supplierId);
+      if(!supplier) return;
+
+      const temporaryPassword = generateTemporaryPassword();
+      supplier.temporaryPassword = temporaryPassword;
+      supplier.password = temporaryPassword;
+      supplier.firstAccessPending = true;
+      persistSuppliers();
+      showGeneratedCredentials(supplier.email, temporaryPassword);
+    }
+
+    function deleteSupplier(supplierId){
+      const supplier = suppliers.find(item => item.id === supplierId);
+      if(!supplier) return;
+
+      deletingSupplierId = supplierId;
+      document.getElementById("deleteSupplierMessage").textContent =
+        `Você deseja excluir ${supplier.name || supplier.legalName || "este fornecedor"}? O acesso e o cadastro dele serão removidos deste navegador.`;
+      document.getElementById("deleteSupplierModal").classList.remove("hidden");
+    }
+
+    function closeDeleteSupplierModal(){
+      document.getElementById("deleteSupplierModal").classList.add("hidden");
+      deletingSupplierId = null;
+    }
+
+    function confirmDeleteSupplier(){
+      if(deletingSupplierId === null) return;
+
+      suppliers = suppliers.filter(item => item.id !== deletingSupplierId);
+
+      if(currentSupplierId === deletingSupplierId){
+        currentSupplierId = null;
+      }
+
+      localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+      renderSuppliers();
+      closeDeleteSupplierModal();
+    }
+
+    function toggleSupplierStatus(supplierId){
+      const supplier = suppliers.find(item => item.id === supplierId);
+      if(!supplier) return;
+      supplier.active = !supplier.active;
+      persistSuppliers();
+    }
+
+    function openSupplierAccount(supplierId){
+      currentSupplierId = supplierId;
+      showPortalPage("supplierAccountPage");
+    }
+
+    function renderSuppliers(){
+      const search = document.getElementById("supplierSearch");
+      const query = (search?.value || "").toLowerCase();
+      const filtered = suppliers.filter(supplier =>
+        `${supplier.name} ${supplier.legalName} ${supplier.email}`.toLowerCase().includes(query)
+      );
+
+      const summary = document.getElementById("supplierSummary");
+      if(summary){
+        summary.textContent = `${suppliers.filter(item => item.active).length} ativos · ${suppliers.filter(item => !item.active).length} inativos`;
+      }
+
+      const table = document.getElementById("suppliersTable");
+      if(!table) return;
+
+      table.innerHTML = filtered.length ? filtered.map(supplier => `
+        <tr>
+          <td><strong>${supplier.name || "—"}</strong></td>
+          <td>${supplier.legalName || "—"}</td>
+          <td>${supplier.email || "—"}<div style="font-size:10px;color:var(--muted);margin-top:3px">Também pode entrar como: ${supplier.name || "—"}</div></td>
+          <td>
+            <span class="first-access-status ${supplier.firstAccessPending ? "pending" : "done"}">
+              ${supplier.firstAccessPending ? "Pendente" : "Concluído"}
+            </span>
+          </td>
+          <td>
+            <button class="client-status ${supplier.active ? "active" : "inactive"}" onclick="toggleSupplierStatus(${supplier.id})">
+              ${supplier.active ? "Ativo" : "Inativo"}
+            </button>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button class="btn btn-secondary btn-small" onclick="openSupplierAccount(${supplier.id})">Ver conta</button>
+              <button class="btn btn-secondary btn-small" onclick="openSupplierModal(${supplier.id})">Editar</button>
+              <button class="btn btn-secondary btn-small" onclick="resetSupplierAccess(${supplier.id})">Nova senha</button>
+              <button class="btn btn-danger btn-small" onclick="deleteSupplier(${supplier.id})">Excluir</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") : `<tr><td colspan="6" class="empty-state">Nenhum fornecedor encontrado.</td></tr>`;
+    }
+
+    function renderSupplierAccount(){
+      const targetId = currentUserRole === "supplier" ? loggedSupplierId : currentSupplierId;
+      const supplier = suppliers.find(item => Number(item.id) === Number(targetId));
+
+      const accountPage = document.getElementById("supplierAccountPage");
+      if(accountPage){
+        accountPage.classList.add("active");
+        accountPage.style.display = "block";
+      }
+
+      if(!supplier){
+        document.getElementById("supplierAccountTitle").textContent = "Conta não encontrada";
+        document.getElementById("supplierAccountSubtitle").textContent = "Não foi possível localizar os dados deste fornecedor.";
+        return;
+      }
+
+      currentSupplierId = supplier.id;
+
+      const isSupplier = currentUserRole === "supplier";
+      document.getElementById("supplierAccountTitle").textContent =
+        isSupplier
+          ? `Olá, ${supplier.name || supplier.legalName || "fornecedor"}`
+          : `Conta de ${supplier.name || supplier.legalName || "fornecedor"}`;
+
+      document.getElementById("supplierAccountSubtitle").textContent =
+        isSupplier
+          ? "Aqui você encontra todas as informações da sua conta."
+          : "Cadastre e edite as informações que o fornecedor verá no acesso dele.";
+
+      document.getElementById("supplierAdminViewLabel").style.display = isSupplier ? "none" : "inline";
+      document.getElementById("supplierOnlyActions").classList.toggle("hidden", !isSupplier);
+      document.getElementById("supplierOnlyActions").style.display = isSupplier ? "flex" : "none";
+
+      document.getElementById("accountSupplierName").value = supplier.name || "";
+      document.getElementById("accountSupplierLegalName").value = supplier.legalName || "";
+      document.getElementById("accountSupplierEmail").value = supplier.email || "";
+      document.getElementById("accountSupplierPhone").value = supplier.phone || "";
+      document.getElementById("accountSupplierCpf").value = supplier.cpf || "";
+      document.getElementById("accountSupplierRg").value = supplier.rg || "";
+      const adminDocumentButton = document.getElementById("accountSupplierDocument");
+      adminDocumentButton.textContent = supplier.documentName || "Nenhum documento anexado";
+      adminDocumentButton.classList.toggle("disabled", !supplier.documentData);
+      const adminDocumentUpload = document.getElementById("accountSupplierDocumentUpload");
+      if(adminDocumentUpload) adminDocumentUpload.value = "";
+      const selectedDocumentLabel = document.getElementById("accountSupplierDocumentSelected");
+      if(selectedDocumentLabel) selectedDocumentLabel.textContent = "";
+      document.getElementById("accountSupplierPix").value = supplier.pix || "";
+      document.getElementById("accountSupplierServices").value = supplier.services || "";
+      document.getElementById("accountSupplierValue").value = supplier.contractValue || "";
+      const selfEditFlag = document.getElementById("allowSupplierSelfEdit");
+      if(selfEditFlag) selfEditFlag.checked = supplier.allowSelfEdit === true;
+      const adminContractButton = document.getElementById("accountSupplierContractName");
+      adminContractButton.textContent = supplier.contractName || "Aguardando envio pelo Jurídico";
+      adminContractButton.classList.toggle("disabled", !supplier.contractData);
+
+      const history = document.getElementById("supplierNfHistory");
+      const invoices = Array.isArray(supplier.invoices) ? supplier.invoices : [];
+
+      history.innerHTML = invoices.length
+        ? invoices.map(invoice => `
+          <div class="nf-item">
+            <div>
+              <strong>${invoice.description || "Nota fiscal"}</strong>
+              <span>${invoice.date || "—"} às ${invoice.time || "—"} · PIX: ${invoice.pix || "—"}</span>
+              <button class="file-link" type="button" onclick="openInvoiceFile(${invoice.id})">
+                ${invoice.fileName || "Visualizar nota fiscal"}
+              </button>
+            </div>
+            <div style="text-align:right">
+              <strong>${Number(invoice.value || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</strong>
+              <span>${invoice.status || "Em análise"}</span>
+            </div>
+          </div>
+        `).join("")
+        : `<div class="empty-state">${isSupplier ? "Você ainda não emitiu nenhuma nota fiscal." : "Este fornecedor ainda não emitiu nenhuma nota fiscal."}</div>`;
+    }
+
+    async function saveSupplierAccount(saveButton){
+      const supplier = suppliers.find(item => Number(item.id) === Number(currentSupplierId));
+      const feedback = document.getElementById("supplierSaveFeedback");
+
+      function showFeedback(message, type){
+        if(feedback){
+          feedback.textContent = message;
+          feedback.className = `save-feedback show ${type || ""}`.trim();
+        }
+      }
+
+      if(!supplier){
+        showFeedback("Fornecedor não encontrado.", "error");
+        alert("Fornecedor não encontrado.");
+        return;
+      }
+
+      const originalText = saveButton.textContent;
+      saveButton.disabled = true;
+      saveButton.textContent = "Salvando...";
+      showFeedback("Salvando informações...", "");
+
+      try{
+        supplier.pix = document.getElementById("accountSupplierPix").value.trim();
+        supplier.services = document.getElementById("accountSupplierServices").value.trim();
+        supplier.contractValue = document.getElementById("accountSupplierValue").value;
+        const selfEditFlag = document.getElementById("allowSupplierSelfEdit");
+        supplier.allowSelfEdit = selfEditFlag ? selfEditFlag.checked : false;
+
+        const documentInput = document.getElementById("accountSupplierDocumentUpload");
+        const documentFile = documentInput && documentInput.files ? documentInput.files[0] : null;
+
+        if(documentFile){
+          showFeedback(`Processando “${documentFile.name}”...`, "");
+          const documentData = await fileToDataUrl(documentFile);
+          supplier.documentName = documentFile.name;
+          supplier.documentType = documentFile.type;
+          supplier.documentData = documentData;
+          supplier.documentSaved = true;
+        }
+
+        localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+
+        renderSupplierAccount();
+        renderSuppliers();
+
+        const message = documentFile
+          ? `Documento “${documentFile.name}” salvo com sucesso.`
+          : "Dados salvos com sucesso.";
+
+        showFeedback(message, "success");
+        alert(message);
+      }catch(error){
+        console.error(error);
+        const message = error && error.message
+          ? error.message
+          : "Não foi possível salvar os dados.";
+
+        showFeedback(message, "error");
+        alert(message);
+      }finally{
+        saveButton.disabled = false;
+        saveButton.textContent = originalText;
+      }
+    }
+
+    function openSupplierNfModal(){
+      const supplier = getCurrentSupplier();
+
+      if(!supplier){
+        alert("Não foi possível identificar sua conta.");
+        return;
+      }
+
+      document.getElementById("supplierNfFile").value = "";
+      document.getElementById("supplierNfValue").value = "";
+      document.getElementById("supplierNfPix").value = supplier.pix || "";
+      document.getElementById("supplierNfDescription").value = "";
+      document.getElementById("supplierNfFileName").textContent = "";
+      document.getElementById("supplierNfFeedback").className = "save-feedback";
+      document.getElementById("supplierNfFeedback").textContent = "";
+      document.getElementById("supplierNfModal").classList.remove("hidden");
+    }
+
+    function closeSupplierNfModal(){
+      document.getElementById("supplierNfModal").classList.add("hidden");
+    }
+
+    async function submitSupplierNf(button){
+      const supplier = getCurrentSupplier();
+      const file = document.getElementById("supplierNfFile").files[0];
+      const value = document.getElementById("supplierNfValue").value;
+      const pix = document.getElementById("supplierNfPix").value.trim();
+      const description = document.getElementById("supplierNfDescription").value.trim();
+      const feedback = document.getElementById("supplierNfFeedback");
+
+      function showFeedback(message, type){
+        feedback.textContent = message;
+        feedback.className = `save-feedback show ${type || ""}`.trim();
+      }
+
+      if(!supplier){
+        showFeedback("Conta do prestador não encontrada.", "error");
+        return;
+      }
+
+      if(!file || !value || !pix || !description){
+        showFeedback("Todos os campos são obrigatórios.", "error");
+        return;
+      }
+
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = "Enviando...";
+      showFeedback("Enviando nota fiscal...", "");
+
+      try{
+        const fileData = await fileToDataUrl(file);
+        const now = new Date();
+
+        supplier.invoices = Array.isArray(supplier.invoices) ? supplier.invoices : [];
+        supplier.invoices.unshift({
+          id: Date.now(),
+          fileName: file.name,
+          fileType: file.type,
+          fileData,
+          value: Number(value),
+          pix,
+          description,
+          date: now.toLocaleDateString("pt-BR"),
+          time: now.toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"}),
+          createdAt: now.toISOString(),
+          status: "Em análise"
+        });
+
+        localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+        renderStandaloneSupplierPortal();
+        showSupplierTab("supplierInvoicesTab");
+        showFeedback("Nota fiscal enviada com sucesso.", "success");
+
+        setTimeout(() => {
+          closeSupplierNfModal();
+        }, 650);
+      }catch(error){
+        console.error(error);
+        showFeedback(error?.message || "Não foi possível enviar a nota fiscal.", "error");
+      }finally{
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+    }
+
+
+    const ADMIN_EMAIL = "lacmagency@gmail.com";
+    const ADMIN_PASSWORD = "Lualua231@";
+
+
+    function showAccessForm(){
+      document.getElementById("accessForm").classList.remove("hidden");
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginAccessTab").classList.add("active");
+      document.getElementById("loginRegisterTab").classList.remove("active");
+      document.getElementById("loginCard").classList.remove("register-card");
+    }
+
+    function showRegisterForm(){
+      document.getElementById("accessForm").classList.add("hidden");
+      document.getElementById("registerForm").classList.remove("hidden");
+      document.getElementById("loginAccessTab").classList.remove("active");
+      document.getElementById("loginRegisterTab").classList.add("active");
+      document.getElementById("loginCard").classList.add("register-card");
+      document.getElementById("registerError").classList.add("hidden");
+      document.getElementById("registerSuccess").classList.add("hidden");
+    }
+
+
+
+    function openLacmaFileDb(){
+      return new Promise((resolve,reject)=>{
+        const request = indexedDB.open("lacmaFinFiles", 1);
+
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if(!db.objectStoreNames.contains("supplierDocuments")){
+            db.createObjectStore("supplierDocuments");
+          }
+          if(!db.objectStoreNames.contains("supplierContracts")){
+            db.createObjectStore("supplierContracts");
+          }
+        };
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error("Não foi possível abrir o armazenamento de arquivos."));
+      });
+    }
+
+    async function saveSupplierFile(storeName, supplierId, file){
+      const db = await openLacmaFileDb();
+
+      return new Promise((resolve,reject)=>{
+        const transaction = db.transaction(storeName, "readwrite");
+        const store = transaction.objectStore(storeName);
+
+        store.put({
+          blob:file,
+          name:file.name,
+          type:file.type,
+          savedAt:new Date().toISOString()
+        }, String(supplierId));
+
+        transaction.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+
+        transaction.onerror = () => {
+          db.close();
+          reject(transaction.error || new Error("Não foi possível salvar o arquivo."));
+        };
+      });
+    }
+
+    async function getSupplierFile(storeName, supplierId){
+      const db = await openLacmaFileDb();
+
+      return new Promise((resolve,reject)=>{
+        const transaction = db.transaction(storeName, "readonly");
+        const request = transaction.objectStore(storeName).get(String(supplierId));
+
+        request.onsuccess = () => {
+          db.close();
+          resolve(request.result || null);
+        };
+
+        request.onerror = () => {
+          db.close();
+          reject(request.error || new Error("Não foi possível abrir o arquivo."));
+        };
+      });
+    }
+
+    function setSupplierSaveFeedback(message, type=""){
+      const box = document.getElementById("supplierSaveFeedback");
+      if(!box) return;
+
+      box.textContent = message;
+      box.className = `save-feedback show ${type}`.trim();
+    }
+
+    function showSelectedSupplierDocument(input){
+      const label = document.getElementById("accountSupplierDocumentSelected");
+      const file = input?.files?.[0];
+
+      if(label){
+        label.textContent = file ? `Arquivo selecionado: ${file.name}` : "";
+      }
+
+      setSupplierSaveFeedback(
+        file
+          ? "Documento selecionado. Clique em “Salvar meus dados” para concluir o envio."
+          : "",
+        ""
+      );
+    }
+
+    function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{
+        if(!file){
+          resolve("");
+          return;
+        }
+
+        if(file.type === "application/pdf"){
+          if(file.size > 3 * 1024 * 1024){
+            reject(new Error("O PDF precisa ter no máximo 3 MB."));
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Não foi possível ler o PDF."));
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        if(!file.type.startsWith("image/")){
+          reject(new Error("Envie uma imagem ou PDF."));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          const image = new Image();
+
+          image.onload = () => {
+            const maxDimension = 1600;
+            let width = image.width;
+            let height = image.height;
+
+            if(width > maxDimension || height > maxDimension){
+              const scale = Math.min(maxDimension / width, maxDimension / height);
+              width = Math.round(width * scale);
+              height = Math.round(height * scale);
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext("2d");
+            context.drawImage(image, 0, 0, width, height);
+
+            resolve(canvas.toDataURL("image/jpeg", .82));
+          };
+
+          image.onerror = () => reject(new Error("Não foi possível processar a imagem."));
+          image.src = reader.result;
+        };
+
+        reader.onerror = () => reject(new Error("Não foi possível ler o arquivo."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function registerSupplier(){
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+      const phone = document.getElementById("registerPhone").value.trim();
+      const rg = document.getElementById("registerRg").value.trim();
+      const cpf = document.getElementById("registerCpf").value.trim();
+      const pix = document.getElementById("registerPix").value.trim();
+      const services = document.getElementById("registerServices").value.trim();
+      const contractValue = document.getElementById("registerValue").value;
+      const password = document.getElementById("registerPassword").value;
+      const confirmation = document.getElementById("registerPasswordConfirm").value;
+      const documentFile = document.getElementById("registerDocument").files[0];
+      const error = document.getElementById("registerError");
+      const success = document.getElementById("registerSuccess");
+
+      error.classList.add("hidden");
+      success.classList.add("hidden");
+
+      if(!email || !password){
+        error.textContent = "Preencha pelo menos o e-mail e a senha.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      if(password.length < 6){
+        error.textContent = "A senha precisa ter pelo menos 6 caracteres.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      if(password !== confirmation){
+        error.textContent = "As senhas não são iguais.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      const exists = suppliers.some(item => (item.email || "").toLowerCase() === email);
+      if(exists){
+        error.textContent = "Já existe uma conta cadastrada com este e-mail.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      let documentData = "";
+      try{
+        documentData = await fileToDataUrl(documentFile);
+      }catch(fileError){
+        error.textContent = fileError.message;
+        error.classList.remove("hidden");
+        return;
+      }
+
+      const supplier = {
+        id: Date.now(),
+        name,
+        legalName: "",
+        email,
+        phone,
+        rg,
+        cpf,
+        pix,
+        documentName: documentFile?.name || "",
+        documentData,
+        services,
+        contractValue,
+        active: true,
+        inviteStatus: "Cadastro próprio",
+        temporaryPassword: "",
+        password,
+        firstAccessPending: false,
+        allowSelfEdit: false,
+        contractName: "",
+        invoices: []
+      };
+
+      suppliers.unshift(supplier);
+
+      try{
+        localStorage.setItem("lacmaFinSuppliers", JSON.stringify(suppliers));
+      }catch(storageError){
+        suppliers = suppliers.filter(item => item.id !== supplier.id);
+        error.textContent = "O documento ficou grande demais para ser salvo. Use uma imagem menor ou um PDF de até 3 MB.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      success.textContent = "Conta criada com sucesso. Entrando na sua área...";
+      success.classList.remove("hidden");
+
+      setTimeout(() => {
+        loggedSupplierId = supplier.id;
+        currentSupplierId = supplier.id;
+        enterSupplierPortal(supplier);
+      }, 500);
+    }
+
+
+    function showLoginError(message){
+      const box = document.getElementById("loginError");
+      box.textContent = message;
+      box.classList.remove("hidden");
+    }
+
+    function clearLoginError(){
+      document.getElementById("loginError").classList.add("hidden");
+    }
+
+    function enterAdminPortal(){
+      clearLoginError();
+      currentUserRole = "admin";
+      sessionStorage.setItem("lacmaFinAuthenticated","true");
+      sessionStorage.setItem("lacmaFinRole","admin");
+      sessionStorage.removeItem("lacmaFinSupplierId");
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("supplierPortal").classList.add("hidden");
+      document.getElementById("portalApp").classList.remove("hidden");
+      document.getElementById("portalApp").classList.remove("supplier-only");
+      showPortalPage("dashboardPage");
+    }
+
+
+
+    function openStoredFile(dataUrl, fileName, emptyMessage){
+      if(!dataUrl){
+        alert(emptyMessage);
+        return;
+      }
+
+      const modal = document.getElementById("documentPreviewModal");
+      const body = document.getElementById("documentPreviewBody");
+      const title = document.getElementById("documentPreviewTitle");
+      const name = document.getElementById("documentPreviewName");
+
+      title.textContent = "Visualizar documento";
+      name.textContent = fileName || "Documento";
+      body.innerHTML = "";
+
+      const data = String(dataUrl);
+
+      const isPdf = data.startsWith("data:application/pdf") ||
+        data.startsWith("blob:") && String(fileName || "").toLowerCase().endsWith(".pdf");
+
+      if(isPdf){
+        const frame = document.createElement("iframe");
+        frame.src = data;
+        frame.title = fileName || "Documento PDF";
+        body.appendChild(frame);
+      }else{
+        const image = document.createElement("img");
+        image.src = data;
+        image.alt = fileName || "Documento";
+        image.onerror = () => {
+          body.innerHTML = '<div class="empty-state">Não foi possível abrir este arquivo.</div>';
+        };
+        body.appendChild(image);
+      }
+
+      modal.classList.remove("hidden");
+    }
+
+    function closeDocumentPreview(){
+      document.getElementById("documentPreviewModal").classList.add("hidden");
+      document.getElementById("documentPreviewBody").innerHTML = "";
+    }
+
+    function getCurrentSupplier(){
+      const stored = JSON.parse(localStorage.getItem("lacmaFinSuppliers") || "[]");
+      if(stored.length){
+        suppliers = stored;
+      }
+
+      const supplierId = currentUserRole === "supplier"
+        ? Number(loggedSupplierId || sessionStorage.getItem("lacmaFinSupplierId"))
+        : Number(currentSupplierId);
+
+      return suppliers.find(item => Number(item.id) === supplierId);
+    }
+
+    async function openSupplierDocument(){
+      const supplier = getCurrentSupplier();
+
+      if(!supplier){
+        alert("Fornecedor não encontrado.");
+        return;
+      }
+
+      if(supplier.documentData){
+        openStoredFile(
+          supplier.documentData,
+          supplier.documentName,
+          "Nenhum documento com foto está disponível."
+        );
+        return;
+      }
+
+      try{
+        const storedFile = await getSupplierFile("supplierDocuments", supplier.id);
+
+        if(storedFile?.blob){
+          const objectUrl = URL.createObjectURL(storedFile.blob);
+          openStoredFile(
+            objectUrl,
+            storedFile.name || supplier.documentName,
+            "Nenhum documento com foto está disponível."
+          );
+          return;
+        }
+      }catch(error){
+        console.error("IndexedDB:", error);
+      }
+
+      alert("Nenhum documento com foto está disponível.");
+    }
+
+    function openSupplierContract(){
+      const supplier = getCurrentSupplier();
+      openStoredFile(
+        supplier?.contractData,
+        supplier?.contractName,
+        "O contrato ainda não foi enviado pelo Jurídico."
+      );
+    }
+
+    function openAdminSupplierDocument(){
+      openSupplierDocument();
+    }
+
+    function openAdminSupplierContract(){
+      openSupplierContract();
+    }
+
+
+    function openInvoiceFile(invoiceId){
+      const supplier = getCurrentSupplier();
+      const invoice = supplier?.invoices?.find(item => Number(item.id) === Number(invoiceId));
+
+      if(!invoice?.fileData){
+        alert("O arquivo desta nota fiscal não está disponível.");
+        return;
+      }
+
+      openStoredFile(
+        invoice.fileData,
+        invoice.fileName || "Nota fiscal",
+        "O arquivo desta nota fiscal não está disponível."
+      );
+    }
+
+    function showSupplierTab(tabId){
+      document.querySelectorAll(".supplier-tab-page").forEach(tab => tab.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+      document.getElementById("supplierTabProfileBtn").classList.toggle("active", tabId === "supplierProfileTab");
+      document.getElementById("supplierTabInvoicesBtn").classList.toggle("active", tabId === "supplierInvoicesTab");
+    }
+
+    function renderStandaloneSupplierPortal(){
+      const supplier = suppliers.find(item => Number(item.id) === Number(loggedSupplierId));
+      if(!supplier) return;
+
+      currentSupplierId = supplier.id;
+
+      document.getElementById("supplierPortalTitle").textContent =
+        `Olá, ${supplier.name || supplier.legalName || "prestador"}`;
+
+      document.getElementById("supplierViewName").textContent = supplier.name || "—";
+      document.getElementById("supplierViewLegalName").textContent = supplier.legalName || "—";
+      document.getElementById("supplierViewEmail").textContent = supplier.email || "—";
+      document.getElementById("supplierViewPhone").textContent = supplier.phone || "—";
+      document.getElementById("supplierViewCpf").textContent = supplier.cpf || "—";
+      document.getElementById("supplierViewRg").textContent = supplier.rg || "—";
+      document.getElementById("supplierViewPix").textContent = supplier.pix || "Não informado";
+      document.getElementById("supplierViewValue").textContent =
+        Number(supplier.contractValue || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+      document.getElementById("supplierViewServices").textContent = supplier.services || "Não informado";
+      const supplierDocumentButton = document.getElementById("supplierViewDocument");
+      const supplierDocumentName = document.getElementById("supplierViewDocumentName");
+      const hasDocument = Boolean(supplier.documentData || supplier.documentSaved);
+      supplierDocumentName.textContent = supplier.documentName || "Nenhum documento anexado";
+      supplierDocumentButton.disabled = false;
+      supplierDocumentButton.style.opacity = hasDocument ? "1" : ".65";
+
+      const supplierContractButton = document.getElementById("supplierViewContract");
+      const supplierContractName = document.getElementById("supplierViewContractName");
+      const hasContract = Boolean(supplier.contractData);
+      supplierContractName.textContent = supplier.contractName || "Aguardando envio pelo Jurídico";
+      supplierContractButton.disabled = false;
+      supplierContractButton.style.opacity = hasContract ? "1" : ".65";
+
+      const lockNotice = document.getElementById("supplierEditLockNotice");
+      if(lockNotice){
+        lockNotice.textContent = "Seus dados são somente para consulta. Alterações são realizadas exclusivamente pela LACMA.";
+      }
+
+      const invoices = Array.isArray(supplier.invoices) ? supplier.invoices : [];
+      document.getElementById("supplierPortalNfHistory").innerHTML = invoices.length
+        ? invoices.map(invoice => `
+          <div class="nf-item">
+            <div>
+              <strong>${invoice.description || "Nota fiscal"}</strong>
+              <span>${invoice.date || "—"} às ${invoice.time || "—"} · PIX: ${invoice.pix || "—"}</span>
+              <button class="file-link" type="button" onclick="openInvoiceFile(${invoice.id})">
+                ${invoice.fileName || "Visualizar nota fiscal"}
+              </button>
+            </div>
+            <div style="text-align:right">
+              <strong>${Number(invoice.value || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</strong>
+              <span>${invoice.status || "Em análise"}</span>
+            </div>
+          </div>
+        `).join("")
+        : `<div class="supplier-empty">Você ainda não emitiu nenhuma nota fiscal.</div>`;
+    }
+
+
+    function enterSupplierPortal(supplier){
+      clearLoginError();
+      currentUserRole = "supplier";
+      loggedSupplierId = supplier.id;
+      currentSupplierId = supplier.id;
+
+      sessionStorage.setItem("lacmaFinAuthenticated","true");
+      sessionStorage.setItem("lacmaFinRole","supplier");
+      sessionStorage.setItem("lacmaFinSupplierId", String(supplier.id));
+
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("portalApp").classList.add("hidden");
+      document.getElementById("supplierPortal").classList.remove("hidden");
+      showSupplierTab("supplierProfileTab");
+      renderStandaloneSupplierPortal();
+    }
+
+    function loginWithEmail(){
+      const identifier = document.getElementById("loginEmail").value.trim().toLowerCase();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if(identifier === ADMIN_EMAIL && password === ADMIN_PASSWORD){
+        enterAdminPortal();
+        return;
+      }
+
+      const storedSuppliers = JSON.parse(localStorage.getItem("lacmaFinSuppliers") || "[]");
+      suppliers = storedSuppliers.length ? storedSuppliers : suppliers;
+
+      const supplier = suppliers.find(item => {
+        const supplierEmail = (item.email || "").trim().toLowerCase();
+        const supplierName = (item.name || "").trim().toLowerCase();
+        const supplierLegalName = (item.legalName || "").trim().toLowerCase();
+        const savedPassword = String(item.password || item.temporaryPassword || "").trim();
+        const isActive = item.active !== false;
+
+        return (
+          identifier === supplierEmail ||
+          identifier === supplierName ||
+          identifier === supplierLegalName
+        ) && savedPassword === password && isActive;
+      });
+
+      if(!supplier){
+        showLoginError("Acesso não encontrado. Confira o nome ou e-mail e a senha provisória gerada no cadastro.");
+        return;
+      }
+
+      loggedSupplierId = supplier.id;
+      currentSupplierId = supplier.id;
+
+      if(supplier.firstAccessPending !== false){
+        clearLoginError();
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("newSupplierPassword").value = "";
+        document.getElementById("confirmSupplierPassword").value = "";
+        document.getElementById("firstAccessError").classList.add("hidden");
+        document.getElementById("firstAccessModal").classList.remove("hidden");
+        return;
+      }
+
+      enterSupplierPortal(supplier);
+    }
+
+    function completeFirstAccess(){
+      const supplier = suppliers.find(item => item.id === loggedSupplierId);
+      const password = document.getElementById("newSupplierPassword").value;
+      const confirmation = document.getElementById("confirmSupplierPassword").value;
+      const error = document.getElementById("firstAccessError");
+
+      if(!supplier){
+        document.getElementById("firstAccessModal").classList.add("hidden");
+        document.getElementById("loginScreen").classList.remove("hidden");
+        showLoginError("Conta do fornecedor não encontrada.");
+        return;
+      }
+
+      if(password.length < 6){
+        error.textContent = "A nova senha precisa ter pelo menos 6 caracteres.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      if(password !== confirmation){
+        error.textContent = "As senhas não são iguais.";
+        error.classList.remove("hidden");
+        return;
+      }
+
+      supplier.password = password;
+      supplier.temporaryPassword = "";
+      supplier.firstAccessPending = false;
+      persistSuppliers();
+      document.getElementById("firstAccessModal").classList.add("hidden");
+      enterSupplierPortal(supplier);
+    }
+
+    function loginWithGoogle(){
+      document.getElementById("loginEmail").value = ADMIN_EMAIL;
+      enterAdminPortal();
+    }
+
+    function logoutPortal(){
+      sessionStorage.clear();
+      currentUserRole = null;
+      loggedSupplierId = null;
+      document.getElementById("portalApp").classList.add("hidden");
+      document.getElementById("supplierPortal").classList.add("hidden");
+      document.getElementById("portalApp").classList.remove("supplier-only");
+      document.getElementById("loginScreen").classList.remove("hidden");
+      document.getElementById("loginPassword").value = "";
+    }
+
+    function togglePassword(button){
+      const input = document.getElementById("loginPassword");
+      input.type = input.type === "password" ? "text" : "password";
+      button.textContent = input.type === "password" ? "Mostrar" : "Ocultar";
+    }
+
+    document.getElementById("loginEmail").addEventListener("keydown", function(event){
+      if(event.key === "Enter") loginWithEmail();
+    });
+
+    document.getElementById("loginPassword").addEventListener("keydown", function(event){
+      if(event.key === "Enter") loginWithEmail();
+    });
+
+    if(sessionStorage.getItem("lacmaFinAuthenticated") === "true"){
+      const role = sessionStorage.getItem("lacmaFinRole");
+      if(role === "supplier"){
+        const supplierId = Number(sessionStorage.getItem("lacmaFinSupplierId"));
+        const supplier = suppliers.find(item => item.id === supplierId);
+        if(supplier) enterSupplierPortal(supplier);
+      }else{
+        enterAdminPortal();
+      }
+    }
+
+    renderClients();
+    renderSuppliers();
+  </script>
+</body>
+</html>
+
+<style>
+  .modal{color:var(--text);border:1px solid var(--line)}
+  .modal-row{border-bottom-color:var(--line)}
+  .day{background:var(--surface)}
+  .day.active{background:rgba(217,255,98,.06);border-color:rgba(217,255,98,.24)}
+  .pending-item{background:var(--surface-soft)}
+  .today-item{background:rgba(255,255,255,.05)}
+</style>

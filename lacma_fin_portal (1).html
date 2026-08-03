@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LACMA FIN</title>
+  <style>
+    :root{
+      --bg:#09090b;
+      --panel:#111114;
+      --panel-2:#17171b;
+      --line:#26262c;
+      --text:#f4f4f5;
+      --muted:#a1a1aa;
+      --accent:#d7ff4f;
+      --accent-dark:#1b2600;
+      --danger:#ff6b6b;
+      --warn:#ffc857;
+      --success:#4ade80;
+      --info:#60a5fa;
+      --radius:18px;
+      --shadow:0 18px 60px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none!important}
+    .app{min-height:100vh}
+    .login{
+      min-height:100vh;display:grid;place-items:center;padding:24px;
+      background:
+        radial-gradient(circle at 20% 20%,rgba(215,255,79,.08),transparent 28%),
+        radial-gradient(circle at 80% 75%,rgba(255,255,255,.05),transparent 25%),
+        var(--bg);
+    }
+    .login-card{width:min(430px,100%);background:rgba(17,17,20,.92);border:1px solid var(--line);border-radius:28px;padding:36px;box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.08em}
+    .brand-mark{font-size:25px}.brand-fin{font-size:16px;color:var(--accent);padding:7px 10px;border:1px solid rgba(215,255,79,.35);border-radius:10px}
+    .login-card h1{margin:38px 0 8px;font-size:30px}.login-card p{margin:0 0 28px;color:var(--muted);line-height:1.55}
+    .field{display:grid;gap:8px;margin-bottom:16px}.field label{font-size:13px;color:#d4d4d8}
+    .input,.select,.textarea{
+      width:100%;background:#0d0d10;border:1px solid var(--line);color:var(--text);
+      border-radius:13px;padding:13px 14px;outline:none;transition:.2s
+    }
+    .textarea{min-height:110px;resize:vertical}
+    .input:focus,.select:focus,.textarea:focus{border-color:rgba(215,255,79,.6);box-shadow:0 0 0 3px rgba(215,255,79,.08)}
+    .btn{border:0;border-radius:13px;padding:12px 16px;font-weight:700;transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--accent);color:#101200}.btn-secondary{background:var(--panel-2);color:var(--text);border:1px solid var(--line)}
+    .btn-danger{background:rgba(255,107,107,.12);color:#ff9898;border:1px solid rgba(255,107,107,.25)}
+    .btn-block{width:100%}
+    .login-demo{font-size:12px;color:var(--muted);margin-top:16px;text-align:center}
+    .layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+    .sidebar{border-right:1px solid var(--line);background:#0b0b0e;padding:24px 16px;position:sticky;top:0;height:100vh}
+    .sidebar .brand{padding:0 8px 28px}
+    .nav{display:grid;gap:7px}
+    .nav button{display:flex;align-items:center;gap:12px;width:100%;background:transparent;color:var(--muted);border:0;border-radius:12px;padding:12px 13px;text-align:left}
+    .nav button:hover,.nav button.active{background:var(--panel-2);color:var(--text)}
+    .nav button.active{box-shadow:inset 3px 0 0 var(--accent)}
+    .sidebar-bottom{position:absolute;left:16px;right:16px;bottom:18px}
+    .profile{padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+    .profile strong,.profile small{display:block}.profile small{color:var(--muted);margin-top:3px}
+    .main{min-width:0}
+    .topbar{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;background:rgba(9,9,11,.88);backdrop-filter:blur(16px);z-index:10}
+    .topbar-title h2{font-size:18px;margin:0}.topbar-title p{font-size:12px;color:var(--muted);margin:4px 0 0}
+    .top-actions{display:flex;gap:10px;align-items:center}
+    .content{padding:28px;max-width:1500px;margin:0 auto}
+    .page{display:none}.page.active{display:block}
+    .page-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:24px}
+    .page-head h1{font-size:30px;margin:0 0 7px}.page-head p{margin:0;color:var(--muted)}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+    .metric .label{font-size:13px;color:var(--muted)}.metric .value{font-size:28px;font-weight:800;margin:12px 0 4px}.metric .note{font-size:12px;color:var(--muted)}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.section-title h3{margin:0;font-size:16px}
+    .spacer{height:16px}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
+    table{width:100%;border-collapse:collapse;min-width:760px;background:var(--panel)}
+    th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13px}
+    th{color:var(--muted);font-weight:600;background:#0f0f12} tr:last-child td{border-bottom:0}
+    .status{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:700}
+    .status:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+    .active-status{color:var(--success);background:rgba(74,222,128,.1)}
+    .analysis-status{color:var(--warn);background:rgba(255,200,87,.1)}
+    .paid-status{color:var(--info);background:rgba(96,165,250,.1)}
+    .inactive-status{color:#a1a1aa;background:rgba(161,161,170,.1)}
+    .searchbar{display:flex;gap:10px;margin-bottom:16px}.searchbar .input{max-width:360px}
+    .actions{display:flex;gap:8px}.small{padding:8px 10px;border-radius:10px;font-size:12px}
+    .empty{padding:36px;text-align:center;color:var(--muted)}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:18px;z-index:100}
+    .modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+    .modal-head,.modal-foot{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+    .modal-foot{border-top:1px solid var(--line);border-bottom:0;justify-content:flex-end;gap:10px}.modal-body{padding:22px}
+    .modal h3{margin:0}.close{background:transparent;color:var(--muted);border:0;font-size:22px}
+    .prestador-hero{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:26px;background:linear-gradient(135deg,rgba(215,255,79,.11),rgba(255,255,255,.02));border:1px solid rgba(215,255,79,.2);border-radius:22px}
+    .prestador-hero h2{margin:0 0 8px}.prestador-hero p{margin:0;color:var(--muted)}
+    .data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .data-item{padding:15px;background:#0d0d10;border:1px solid var(--line);border-radius:14px}.data-item small{display:block;color:var(--muted);margin-bottom:7px}
+    .notice{padding:14px 16px;border:1px solid rgba(255,200,87,.22);background:rgba(255,200,87,.08);border-radius:14px;color:#ffe2a0;font-size:13px;margin-bottom:16px}
+    @media(max-width:1050px){.grid-4{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:86px 1fr}.sidebar{padding:20px 10px}.sidebar .brand-mark{display:none}.sidebar .brand-fin{margin:auto}.nav button span:last-child{display:none}.nav button{justify-content:center}.profile{display:none}}
+    @media(max-width:720px){.layout{display:block}.sidebar{position:fixed;z-index:30;bottom:0;top:auto;height:70px;width:100%;border-right:0;border-top:1px solid var(--line);padding:8px}.sidebar .brand,.sidebar-bottom{display:none}.nav{grid-template-columns:repeat(5,1fr);gap:2px}.nav button{padding:9px 6px;font-size:18px}.topbar{padding:0 16px}.content{padding:20px 14px 92px}.grid-4,.grid-2,.data-grid{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.topbar-title p{display:none}.prestador-hero{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <section id="loginScreen" class="login">
+    <div class="login-card">
+      <div class="brand"><span class="brand-mark">LACMA</span><span class="brand-fin">FIN</span></div>
+      <h1>Acesse sua conta</h1>
+      <p>Central financeira da LACMA.</p>
+      <div class="field"><label>E-mail</label><input id="email" class="input" value="admin@lacma.com.br"></div>
+      <div class="field"><label>Senha</label><input id="password" class="input" type="password" value="123456"></div>
+      <div class="field"><label>Perfil de demonstração</label>
+        <select id="profileSelect" class="select">
+          <option value="admin">Administrador</option>
+          <option value="prestador">Prestador</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="login()">Entrar</button>
+      <div class="login-demo">Protótipo demonstrativo. Os dados ficam salvos apenas neste navegador.</div>
+    </div>
+  </section>
+
+  <section id="portal" class="layout hidden">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">LACMA</span><span class="brand-fin">FIN</span></div>
+      <nav id="adminNav" class="nav">
+        <button class="active" data-page="dashboard"><span>◫</span><span>Dashboard</span></button>
+        <button data-page="clientes"><span>◎</span><span>Clientes</span></button>
+        <button data-page="prestadores"><span>◇</span><span>Prestadores</span></button>
+        <button data-page="cobrancas"><span>▤</span><span>Cobranças</span></button>
+        <button data-page="relatorios"><span>↗</span><span>Relatórios</span></button>
+      </nav>
+      <nav id="prestadorNav" class="nav hidden">
+        <button class="active" data-page="areaPrestador"><span>◫</span><span>Início</span></button>
+        <button data-page="minhasCobrancas"><span>▤</span><span>Cobranças</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="profile"><strong id="profileName">Luana</strong><small id="profileRole">Administrador</small></div></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title"><h2 id="topTitle">Dashboard</h2><p id="topSubtitle">Visão geral da operação financeira</p></div>
+        <div class="top-actions"><button class="btn btn-secondary small" onclick="logout()">Sair</button></div>
+      </header>
+
+      <div class="content">
+        <section id="dashboard" class="page active">
+          <div class="page-head"><div><h1>Boa tarde, Luana.</h1><p>Acompanhe os principais números e pendências.</p></div></div>
+          <div class="grid-4">
+            <div class="card metric"><div class="label">Receita prevista</div><div class="value">R$ 48.900</div><div class="note">Agosto de 2026</div></div>
+            <div class="card metric"><div class="label">Pagamentos pendentes</div><div class="value" id="pendingMetric">2</div><div class="note">Cobranças aguardando análise</div></div>
+            <div class="card metric"><div class="label">Prestadores ativos</div><div class="value" id="providersMetric">3</div><div class="note">Cadastros aprovados</div></div>
+            <div class="card metric"><div class="label">Clientes ativos</div><div class="value" id="clientsMetric">3</div><div class="note">Empresas cadastradas</div></div>
+          </div>
+          <div class="spacer"></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="section-title"><h3>Pendências</h3></div>
+              <div id="pendingList"></div>
+            </div>
+            <div class="card">
+              <div class="section-title"><h3>Últimas cobranças</h3></div>
+              <div id="lastCharges"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="clientes" class="page">
+          <div class="page-head"><div><h1>Clientes</h1><p>Cadastre apenas CNPJ e razão social.</p></div><button class="btn btn-primary" onclick="openModal('clientModal')">Novo cliente</button></div>
+          <div class="searchbar"><input id="clientSearch" class="input" placeholder="Buscar por CNPJ ou razão social" oninput="renderClients()"></div>
+          <div class="table-wrap"><table><thead><tr><th>CNPJ</th><th>Razão Social</th><th>Status</th><th>Cadastro</th></tr></thead><tbody id="clientsTable"></tbody></table></div>
+        </section>
+
+        <section id="prestadores" class="page">
+          <div class="page-head"><div><h1>Prestadores</h1><p>Visualize o cadastro preenchido pelo prestador.</p></div><button class="btn btn-primary" onclick="openModal('providerModal')">Novo prestador</button></div>
+          <div class="searchbar"><input id="providerSearch" class="input" placeholder="Buscar por nome, CNPJ ou razão social" oninput="renderProviders()"></div>
+          <div class="table-wrap"><table><thead><tr><th>Nome</th><th>CNPJ</th><th>Razão Social</th><th>PIX</th><th>Valor negociado</th><th>Serviços prestados</th></tr></thead><tbody id="providersTable"></tbody></table></div>
+        </section>
+
+        <section id="cobrancas" class="page">
+          <div class="page-head"><div><h1>Cobranças</h1><p>Todas as notas enviadas pelos prestadores.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Prestador</th><th>Data</th><th>Valor</th><th>PIX</th><th>Descrição</th><th>Status</th><th>Ações</th></tr></thead><tbody id="chargesTable"></tbody></table></div>
+        </section>
+
+        <section id="relatorios" class="page">
+          <div class="page-head"><div><h1>Relatórios</h1><p>Resumo financeiro demonstrativo.</p></div></div>
+          <div class="grid-4">
+            <div class="card metric"><div class="label">Total enviado</div><div id="totalSent" class="value">R$ 0</div></div>
+            <div class="card metric"><div class="label">Total ativo</div><div id="totalActive" class="value">R$ 0</div></div>
+            <div class="card metric"><div class="label">Total pago</div><div id="totalPaid" class="value">R$ 0</div></div>
+            <div class="card metric"><div class="label">Total inativado</div><div id="totalInactive" class="value">R$ 0</div></div>
+          </div>
+        </section>
+
+        <section id="areaPrestador" class="page">
+          <div class="page-head"><div><h1>Minha conta</h1><p>Dados cadastrais e emissão de cobrança.</p></div></div>
+          <div id="providerNotice" class="notice">Complete todos os dados obrigatórios antes de emitir cobranças.</div>
+          <div class="prestador-hero">
+            <div><h2>Marina Souza</h2><p>MS Design Criativo Ltda.</p></div>
+            <button class="btn btn-primary" onclick="openChargeModal()">Emitir cobrança</button>
+          </div>
+          <div class="data-grid">
+            <div class="data-item"><small>CNPJ</small><strong>45.123.456/0001-90</strong></div>
+            <div class="data-item"><small>Chave PIX</small><strong id="providerPixText">45.123.456/0001-90</strong></div>
+            <div class="data-item"><small>Valor negociado</small><strong>R$ 2.000,00</strong></div>
+          </div>
+          <div class="spacer"></div>
+          <div class="card"><div class="section-title"><h3>Serviços prestados</h3><button class="btn btn-secondary small" onclick="openModal('profileModal')">Editar dados</button></div><p style="color:var(--muted);margin:0">Criação de peças gráficas, desdobramentos de campanhas e suporte mensal de design.</p></div>
+        </section>
+
+        <section id="minhasCobrancas" class="page">
+          <div class="page-head"><div><h1>Minhas cobranças</h1><p>As cobranças permanecem no histórico e não podem ser apagadas.</p></div><button class="btn btn-primary" onclick="openChargeModal()">Emitir cobrança</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Data</th><th>Valor</th><th>Nota Fiscal</th><th>Descrição</th><th>Status</th><th>Ação</th></tr></thead><tbody id="myChargesTable"></tbody></table></div>
+        </section>
+      </div>
+    </main>
+  </section>
+</div>
+
+<div id="clientModal" class="modal-backdrop hidden">
+  <div class="modal"><div class="modal-head"><h3>Novo cliente</h3><button class="close" onclick="closeModal('clientModal')">×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>CNPJ *</label><input id="clientCnpj" class="input" placeholder="00.000.000/0000-00" onblur="mockCnpjLookup('client')"></div>
+      <div class="field"><label>Razão Social *</label><input id="clientCompany" class="input" placeholder="Preenchida automaticamente"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('clientModal')">Cancelar</button><button class="btn btn-primary" onclick="addClient()">Cadastrar</button></div>
+  </div>
+</div>
+
+<div id="providerModal" class="modal-backdrop hidden">
+  <div class="modal"><div class="modal-head"><h3>Novo prestador</h3><button class="close" onclick="closeModal('providerModal')">×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Nome *</label><input id="providerName" class="input"></div>
+      <div class="field"><label>CNPJ *</label><input id="providerCnpj" class="input" onblur="mockCnpjLookup('provider')"></div>
+      <div class="field"><label>Razão Social *</label><input id="providerCompany" class="input"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('providerModal')">Cancelar</button><button class="btn btn-primary" onclick="addProvider()">Criar acesso</button></div>
+  </div>
+</div>
+
+<div id="chargeModal" class="modal-backdrop hidden">
+  <div class="modal"><div class="modal-head"><h3>Emitir cobrança</h3><button class="close" onclick="closeModal('chargeModal')">×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Nota Fiscal *</label><input id="chargeFile" class="input" type="file" accept=".pdf,.jpg,.jpeg,.png"></div>
+      <div class="field"><label>Valor da nota *</label><input id="chargeValue" class="input" type="number" step="0.01" placeholder="0,00"></div>
+      <div class="field"><label>Chave PIX *</label><input id="chargePix" class="input" value="45.123.456/0001-90"></div>
+      <div class="field"><label>Descrição *</label><textarea id="chargeDescription" class="textarea" placeholder="Descreva o serviço referente à nota"></textarea></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('chargeModal')">Cancelar</button><button class="btn btn-primary" onclick="addCharge()">Enviar cobrança</button></div>
+  </div>
+</div>
+
+<div id="profileModal" class="modal-backdrop hidden">
+  <div class="modal"><div class="modal-head"><h3>Editar cadastro</h3><button class="close" onclick="closeModal('profileModal')">×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Chave PIX *</label><input class="input" value="45.123.456/0001-90"></div>
+      <div class="field"><label>Valor negociado do serviço *</label><input class="input" value="2000"></div>
+      <div class="field"><label>Liste aqui os serviços prestados *</label><textarea class="textarea">Criação de peças gráficas, desdobramentos de campanhas e suporte mensal de design.</textarea></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('profileModal')">Cancelar</button><button class="btn btn-primary" onclick="closeModal('profileModal')">Salvar</button></div>
+  </div>
+</div>
+
+<script>
+const seed = {
+ clients:[
+  {cnpj:"45.424.815/0001-36",company:"LACMA Branding Ltda.",status:"Ativo",date:"03/08/2026"},
+  {cnpj:"12.456.789/0001-10",company:"Entre Telecom Ltda.",status:"Ativo",date:"01/08/2026"},
+  {cnpj:"33.555.777/0001-20",company:"Furious Moto Parts Ltda.",status:"Ativo",date:"29/07/2026"}
+ ],
+ providers:[
+  {name:"Marina Souza",cnpj:"45.123.456/0001-90",company:"MS Design Criativo Ltda.",pix:"45.123.456/0001-90",value:2000,services:"Design e desdobramentos de campanhas"},
+  {name:"João Lima",cnpj:"31.987.654/0001-22",company:"JL Vídeos Ltda.",pix:"11999999999",value:1400,services:"Edição de vídeos"},
+  {name:"Carla Reis",cnpj:"17.777.444/0001-08",company:"CR Mídia Ltda.",pix:"financeiro@crmidia.com.br",value:3000,services:"Gestão de tráfego"}
+ ],
+ charges:[
+  {id:1,provider:"Marina Souza",date:"03/08/2026",value:2000,pix:"45.123.456/0001-90",description:"Serviços de design - agosto",file:"NF-102.pdf",status:"Em análise"},
+  {id:2,provider:"João Lima",date:"02/08/2026",value:1400,pix:"11999999999",description:"Edição de vídeos - julho",file:"NF-088.pdf",status:"Paga"}
+ ]
+}
+let data = JSON.parse(localStorage.getItem("lacmaFinData") || "null") || seed;
+let currentRole = "admin";
+const money = v => Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function save(){localStorage.setItem("lacmaFinData",JSON.stringify(data)); renderAll()}
+function login(){
+ currentRole=document.getElementById("profileSelect").value;
+ document.getElementById("loginScreen").classList.add("hidden");
+ document.getElementById("portal").classList.remove("hidden");
+ document.getElementById("adminNav").classList.toggle("hidden",currentRole!=="admin");
+ document.getElementById("prestadorNav").classList.toggle("hidden",currentRole!=="prestador");
+ document.getElementById("profileName").textContent=currentRole==="admin"?"Luana":"Marina Souza";
+ document.getElementById("profileRole").textContent=currentRole==="admin"?"Administrador":"Prestador";
+ showPage(currentRole==="admin"?"dashboard":"areaPrestador");
+}
+function logout(){document.getElementById("portal").classList.add("hidden");document.getElementById("loginScreen").classList.remove("hidden")}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ const labels={dashboard:["Dashboard","Visão geral da operação financeira"],clientes:["Clientes","Cadastros empresariais"],prestadores:["Prestadores","Dados completos dos prestadores"],cobrancas:["Cobranças","Notas e solicitações de pagamento"],relatorios:["Relatórios","Indicadores financeiros"],areaPrestador:["Minha conta","Cadastro e emissão de cobrança"],minhasCobrancas:["Minhas cobranças","Histórico de notas enviadas"]};
+ document.getElementById("topTitle").textContent=labels[id][0]; document.getElementById("topSubtitle").textContent=labels[id][1];
+ renderAll();
+}
+function openModal(id){document.getElementById(id).classList.remove("hidden")}
+function closeModal(id){document.getElementById(id).classList.add("hidden")}
+function mockCnpjLookup(type){
+ const c=document.getElementById(type==="client"?"clientCnpj":"providerCnpj").value.trim();
+ if(c.length>=14) document.getElementById(type==="client"?"clientCompany":"providerCompany").value=type==="client"?"Empresa Consultada Ltda.":"Prestador Consultado Ltda.";
+}
+function addClient(){
+ const cnpj=document.getElementById("clientCnpj").value.trim(),company=document.getElementById("clientCompany").value.trim();
+ if(!cnpj||!company)return alert("Preencha todos os campos obrigatórios.");
+ data.clients.unshift({cnpj,company,status:"Ativo",date:new Date().toLocaleDateString("pt-BR")});save();closeModal("clientModal")
+}
+function addProvider(){
+ const name=document.getElementById("providerName").value.trim(),cnpj=document.getElementById("providerCnpj").value.trim(),company=document.getElementById("providerCompany").value.trim();
+ if(!name||!cnpj||!company)return alert("Preencha todos os campos obrigatórios.");
+ data.providers.unshift({name,cnpj,company,pix:"Aguardando preenchimento",value:0,services:"Aguardando preenchimento"});save();closeModal("providerModal")
+}
+function openChargeModal(){openModal("chargeModal")}
+function addCharge(){
+ const file=document.getElementById("chargeFile").files[0],value=document.getElementById("chargeValue").value,pix=document.getElementById("chargePix").value.trim(),description=document.getElementById("chargeDescription").value.trim();
+ if(!file||!value||!pix||!description)return alert("Todos os campos são obrigatórios.");
+ data.charges.unshift({id:Date.now(),provider:"Marina Souza",date:new Date().toLocaleDateString("pt-BR"),value:Number(value),pix,description,file:file.name,status:"Em análise"});
+ save();closeModal("chargeModal");alert("Cobrança enviada com sucesso.");
+}
+function inactivate(id){
+ if(!confirm("Deseja inativar esta cobrança? Ela continuará visível no histórico."))return;
+ const c=data.charges.find(x=>x.id===id); if(c)c.status="Inativa";save()
+}
+function setPaid(id){const c=data.charges.find(x=>x.id===id);if(c)c.status="Paga";save()}
+function badge(s){
+ const cls=s==="Paga"?"paid-status":s==="Inativa"?"inactive-status":s==="Ativa"?"active-status":"analysis-status";
+ return `<span class="status ${cls}">${s}</span>`;
+}
+function renderClients(){
+ const q=(document.getElementById("clientSearch")?.value||"").toLowerCase();
+ document.getElementById("clientsTable").innerHTML=data.clients.filter(x=>(x.cnpj+x.company).toLowerCase().includes(q)).map(x=>`<tr><td>${x.cnpj}</td><td><strong>${x.company}</strong></td><td>${badge(x.status)}</td><td>${x.date}</td></tr>`).join("")||`<tr><td colspan="4" class="empty">Nenhum cliente encontrado.</td></tr>`;
+}
+function renderProviders(){
+ const q=(document.getElementById("providerSearch")?.value||"").toLowerCase();
+ document.getElementById("providersTable").innerHTML=data.providers.filter(x=>(x.name+x.cnpj+x.company).toLowerCase().includes(q)).map(x=>`<tr><td><strong>${x.name}</strong></td><td>${x.cnpj}</td><td>${x.company}</td><td>${x.pix}</td><td>${money(x.value)}</td><td>${x.services}</td></tr>`).join("");
+}
+function renderCharges(){
+ document.getElementById("chargesTable").innerHTML=data.charges.map(x=>`<tr><td><strong>${x.provider}</strong></td><td>${x.date}</td><td>${money(x.value)}</td><td>${x.pix}</td><td>${x.description}</td><td>${badge(x.status)}</td><td><div class="actions">${x.status==="Em análise"?`<button class="btn btn-secondary small" onclick="setPaid(${x.id})">Marcar paga</button>`:""}</div></td></tr>`).join("");
+ const mine=data.charges.filter(x=>x.provider==="Marina Souza");
+ document.getElementById("myChargesTable").innerHTML=mine.map(x=>`<tr><td>${x.date}</td><td>${money(x.value)}</td><td>${x.file}</td><td>${x.description}</td><td>${badge(x.status)}</td><td>${x.status!=="Inativa"&&x.status!=="Paga"?`<button class="btn btn-danger small" onclick="inactivate(${x.id})">Inativar</button>`:""}</td></tr>`).join("")||`<tr><td colspan="6" class="empty">Nenhuma cobrança emitida.</td></tr>`;
+}
+function renderDashboard(){
+ const pending=data.charges.filter(x=>x.status==="Em análise");
+ document.getElementById("pendingMetric").textContent=pending.length;
+ document.getElementById("providersMetric").textContent=data.providers.length;
+ document.getElementById("clientsMetric").textContent=data.clients.length;
+ document.getElementById("pendingList").innerHTML=pending.map(x=>`<div class="data-item" style="margin-bottom:10px"><small>${x.provider}</small><strong>${money(x.value)}</strong><div style="margin-top:8px">${badge(x.status)}</div></div>`).join("")||`<div class="empty">Nenhuma pendência.</div>`;
+ document.getElementById("lastCharges").innerHTML=data.charges.slice(0,4).map(x=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)"><div><strong>${x.provider}</strong><div style="color:var(--muted);font-size:12px;margin-top:4px">${x.description}</div></div><div style="text-align:right"><strong>${money(x.value)}</strong><div style="margin-top:5px">${badge(x.status)}</div></div></div>`).join("");
+}
+function renderReports(){
+ const sum=status=>data.charges.filter(x=>!status||x.status===status).reduce((a,b)=>a+Number(b.value),0);
+ document.getElementById("totalSent").textContent=money(sum());
+ document.getElementById("totalActive").textContent=money(data.charges.filter(x=>x.status!=="Inativa").reduce((a,b)=>a+b.value,0));
+ document.getElementById("totalPaid").textContent=money(sum("Paga"));
+ document.getElementById("totalInactive").textContent=money(sum("Inativa"));
+}
+function renderAll(){renderClients();renderProviders();renderCharges();renderDashboard();renderReports()}
+renderAll();
+</script>
+</body>
+</html>

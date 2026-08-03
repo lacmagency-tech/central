@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LACMA FIN</title>
+<style>
+:root{
+  --bg:#0d0d0f;--panel:#141417;--panel2:#1a1a1f;--line:#2a2a31;--text:#f7f7f8;
+  --muted:#9f9fa8;--accent:#d9ff5a;--danger:#ff7a7a;--warning:#ffd166;--success:#67e39a;--info:#7bb0ff;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:750}
+.btn-primary{background:var(--accent);color:#111500}
+.btn-secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.btn-danger{background:rgba(255,122,122,.12);color:#ff9e9e;border:1px solid rgba(255,122,122,.25)}
+.btn-small{padding:7px 9px;font-size:12px}
+.field{display:grid;gap:7px;margin-bottom:14px}
+.field label{font-size:12px;color:#d7d7dc;font-weight:650}
+.input,.select,.textarea{width:100%;background:#0f0f12;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 12px;outline:none}
+.textarea{min-height:96px;resize:vertical}
+.input:focus,.select:focus,.textarea:focus{border-color:rgba(217,255,90,.62);box-shadow:0 0 0 3px rgba(217,255,90,.07)}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 15%,rgba(217,255,90,.08),transparent 28%),var(--bg)}
+.login-card{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.06em}
+.brand .fin{font-size:13px;color:var(--accent);border:1px solid rgba(217,255,90,.35);padding:6px 9px;border-radius:9px}
+.login h1{margin:34px 0 8px;font-size:28px}.login p{margin:0 0 24px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;background:#0e0e10;border-right:1px solid var(--line);padding:20px 13px}
+.sidebar .brand{padding:0 8px 22px}
+.nav{display:grid;gap:5px}
+.nav button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;color:var(--muted);padding:10px 11px;border-radius:10px;text-align:left}
+.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text)}
+.nav button.active{box-shadow:inset 3px 0 0 var(--accent)}
+.sidebar-foot{position:absolute;left:13px;right:13px;bottom:15px}
+.profile{padding:12px;border:1px solid var(--line);background:var(--panel);border-radius:12px}
+.profile strong,.profile small{display:block}.profile small{color:var(--muted);margin-top:3px}
+.main{min-width:0}
+.topbar{height:68px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(13,13,15,.9);backdrop-filter:blur(14px);z-index:20}
+.topbar h2{margin:0;font-size:17px}.topbar p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.content{padding:22px;max-width:1480px;margin:auto}
+.page{display:none}.page.active{display:block}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:18px}
+.page-head h1{font-size:27px;margin:0 0 6px}.page-head p{margin:0;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:17px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.section{margin-bottom:22px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head h3{margin:0;font-size:14px}.section-head span{color:var(--muted);font-size:11px}
+.metric .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.metric .value{font-size:25px;font-weight:850;margin:9px 0 4px}.metric .note{font-size:11px;color:var(--muted)}
+.profit{background:linear-gradient(180deg,rgba(217,255,90,.08),rgba(217,255,90,.015));border-color:rgba(217,255,90,.2)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:760px;background:var(--panel)}
+th,td{padding:12px 13px;text-align:left;border-bottom:1px solid var(--line);font-size:12px}
+th{background:#101012;color:var(--muted);font-weight:650}tr:last-child td{border-bottom:0}
+.status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800}
+.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-success{color:var(--success);background:rgba(103,227,154,.1)}
+.st-warning{color:var(--warning);background:rgba(255,209,102,.1)}
+.st-danger{color:var(--danger);background:rgba(255,122,122,.1)}
+.st-info{color:var(--info);background:rgba(123,176,255,.1)}
+.st-muted{color:#b2b2b8;background:rgba(178,178,184,.1)}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.search-row{display:flex;gap:10px;margin-bottom:13px}.search-row .input{max-width:360px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-label{text-align:center;color:var(--muted);font-size:10px;padding:4px}
+.cal-day{min-height:64px;border:1px solid var(--line);border-radius:9px;padding:7px;background:#0f0f12}
+.cal-day.off{opacity:.25}.cal-day.has{border-color:rgba(217,255,90,.25);background:rgba(217,255,90,.035)}
+.cal-day .n{font-size:10px;color:var(--muted)}.cal-day .amt{font-size:10px;color:var(--accent);font-weight:800;margin-top:7px}
+.list{display:grid;gap:8px}.list-row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line)}.list-row:last-child{border-bottom:0}
+.tabs{display:flex;gap:8px;margin-bottom:13px}.tab.active{background:var(--accent);color:#111500}
+.empty{padding:27px;text-align:center;color:var(--muted)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:grid;place-items:center;padding:16px;z-index:100}
+.modal{width:min(700px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px}
+.modal.wide{width:min(980px,100%)}
+.modal-head,.modal-foot{padding:17px 19px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.modal-foot{border-top:1px solid var(--line);border-bottom:0;justify-content:flex-end;gap:8px}
+.modal-body{padding:19px}.modal h3{margin:0}.close{border:0;background:transparent;color:var(--muted);font-size:21px}
+.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.choice{background:#0f0f12;color:var(--text);border:1px solid var(--line);padding:11px;border-radius:10px;text-align:left}
+.choice.active{border-color:var(--accent)}
+.stage-row{display:grid;grid-template-columns:1.5fr .7fr .9fr 42px;gap:8px;align-items:end;margin-bottom:9px}.stage-row .field{margin:0}
+.notice{padding:12px 14px;border-radius:11px;font-size:12px;margin-bottom:14px;border:1px solid rgba(255,209,102,.22);background:rgba(255,209,102,.07);color:#ffe39c}
+@media(max-width:900px){.layout{grid-template-columns:80px 1fr}.sidebar .brand span:first-child,.nav button span:last-child,.profile{display:none}.sidebar .brand .fin{margin:auto}.nav button{justify-content:center}.grid-3,.grid-4{grid-template-columns:1fr}}
+@media(max-width:700px){.layout{display:block}.sidebar{position:fixed;bottom:0;top:auto;width:100%;height:68px;z-index:40;border-right:0;border-top:1px solid var(--line);padding:7px}.sidebar .brand,.sidebar-foot{display:none}.nav{grid-template-columns:repeat(6,1fr)}.nav button{padding:9px 5px}.content{padding:18px 12px 86px}.grid-2,.grid-3,.grid-4,.choice-grid,.stage-row{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.calendar{gap:4px}.cal-day{min-height:54px}}
+</style>
+</head>
+<body>
+
+<section id="loginScreen" class="login">
+  <div class="login-card">
+    <div class="brand"><span>LACMA</span><span class="fin">FIN</span></div>
+    <h1>Acesse sua conta</h1>
+    <p>Central financeira da LACMA.</p>
+    <div class="field"><label>E-mail</label><input class="input" value="admin@lacma.com.br"></div>
+    <div class="field"><label>Senha</label><input type="password" class="input" value="123456"></div>
+    <div class="field"><label>Perfil de teste</label><select id="roleSelect" class="select"><option value="admin">Administrador</option><option value="provider">Prestador</option></select></div>
+    <button class="btn btn-primary" style="width:100%" onclick="login()">Entrar</button>
+  </div>
+</section>
+
+<section id="portal" class="layout hidden">
+  <aside class="sidebar">
+    <div class="brand"><span>LACMA</span><span class="fin">FIN</span></div>
+    <nav id="adminNav" class="nav">
+      <button class="active" data-page="dashboard"><span>◫</span><span>Dashboard</span></button>
+      <button data-page="clients"><span>◎</span><span>Clientes</span></button>
+      <button data-page="contracts"><span>◈</span><span>Contratos</span></button>
+      <button data-page="providers"><span>◇</span><span>Prestadores</span></button>
+      <button data-page="payments"><span>▤</span><span>Pagamentos</span></button>
+      <button data-page="expenses"><span>◌</span><span>Despesas</span></button>
+    </nav>
+    <nav id="providerNav" class="nav hidden">
+      <button class="active" data-page="providerHome"><span>◫</span><span>Início</span></button>
+      <button data-page="providerCharges"><span>▤</span><span>Cobranças</span></button>
+      <button data-page="providerProfile"><span>◎</span><span>Cadastro</span></button>
+    </nav>
+    <div class="sidebar-foot"><div class="profile"><strong id="profileName">Luana</strong><small id="profileRole">Administrador</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><h2 id="topTitle">Dashboard</h2><p id="topSubtitle">Visão geral da operação financeira</p></div>
+      <button class="btn btn-secondary btn-small" onclick="logout()">Sair</button>
+    </header>
+
+    <div class="content">
+      <section id="dashboard" class="page active">
+        <div class="page-head"><div><h1>Visão geral</h1><p>Resumo financeiro e operacional do mês.</p></div></div>
+        <div class="section">
+          <div class="section-head"><h3>Administrativo da agência</h3><span>Mês atual</span></div>
+          <div class="grid-3">
+            <div class="card metric"><div class="label">Entradas previstas</div><div class="value" id="dashIncome">R$ 0,00</div><div class="note">Cobranças de clientes</div></div>
+            <div class="card metric"><div class="label">Despesas previstas</div><div class="value" id="dashExpenses">R$ 0,00</div><div class="note">Prestadores e despesas</div></div>
+            <div class="card metric profit"><div class="label">Lucro previsto</div><div class="value" id="dashProfit">R$ 0,00</div><div class="note">Entradas menos despesas</div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><h3>Fornecedores</h3><span>Notas e pagamentos</span></div>
+          <div class="grid-3">
+            <div class="card metric"><div class="label">Fornecedores cadastrados</div><div class="value" id="dashProviders">0</div><div class="note">Prestadores no sistema</div></div>
+            <div class="card metric"><div class="label">Notas pendentes</div><div class="value" id="dashPendingInvoices">0</div><div class="note">Aguardando aprovação ou pagamento</div></div>
+            <div class="card metric"><div class="label">Valor pendente</div><div class="value" id="dashPendingAmount">R$ 0,00</div><div class="note">Total ainda não pago</div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head"><h3>Clientes</h3><span>Calendário de cobranças</span></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="metric"><div class="label">Clientes ativos</div><div class="value" id="dashClients">0</div></div>
+              <div id="upcomingList" class="list"></div>
+            </div>
+            <div class="card">
+              <div class="section-head"><h3 id="calendarLabel">Calendário</h3><span>Valores a emitir</span></div>
+              <div id="calendarGrid" class="calendar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="clients" class="page">
+        <div class="page-head"><div><h1>Clientes</h1><p>Cadastre o cliente e todos os contratos vinculados.</p></div><button class="btn btn-primary" onclick="openModal('clientModal')">Novo cliente</button></div>
+        <div class="search-row"><input id="clientSearch" class="input" placeholder="Buscar por CNPJ ou razão social" oninput="renderClients()"></div>
+        <div class="table-wrap"><table><thead><tr><th>CNPJ</th><th>Razão Social</th><th>Contratos</th><th>Valor contratado</th><th>Status</th><th>Ação</th></tr></thead><tbody id="clientsTable"></tbody></table></div>
+      </section>
+
+      <section id="contracts" class="page">
+        <div class="page-head"><div><h1>Contratos</h1><p>Cadastre todas as condições e gere cobranças automaticamente.</p></div><button class="btn btn-primary" onclick="openContractModal()">Novo contrato</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Modelo</th><th>Valor</th><th>Início</th><th>Fim</th><th>Cobranças</th><th>Status</th></tr></thead><tbody id="contractsTable"></tbody></table></div>
+      </section>
+
+      <section id="providers" class="page">
+        <div class="page-head"><div><h1>Prestadores</h1><p>Crie o acesso e acompanhe os dados preenchidos por cada prestador.</p></div><button class="btn btn-primary" onclick="openModal('providerModal')">Novo prestador</button></div>
+        <div class="search-row"><input id="providerSearch" class="input" placeholder="Buscar por nome, CNPJ ou e-mail" oninput="renderProviders()"></div>
+        <div class="table-wrap"><table><thead><tr><th>Nome</th><th>CNPJ</th><th>E-mail</th><th>PIX</th><th>Valor negociado</th><th>Serviços</th><th>Acesso</th></tr></thead><tbody id="providersTable"></tbody></table></div>
+      </section>
+
+      <section id="payments" class="page">
+        <div class="page-head"><div><h1>Pagamentos</h1><p>Recebimentos de clientes e pagamentos de prestadores e despesas.</p></div><button class="btn btn-primary" onclick="openModal('manualChargeModal')">Gerar cobrança manual</button></div>
+        <div class="tabs"><button id="receiveTabBtn" class="btn btn-secondary btn-small tab active" onclick="paymentTab('receive')">A receber</button><button id="payTabBtn" class="btn btn-secondary btn-small tab" onclick="paymentTab('pay')">A pagar</button></div>
+        <div id="receivePanel"><div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Etapa/Parcela</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody id="receivablesTable"></tbody></table></div></div>
+        <div id="payPanel" class="hidden"><div class="table-wrap"><table><thead><tr><th>Origem</th><th>Responsável</th><th>Descrição</th><th>Valor</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody id="payablesTable"></tbody></table></div></div>
+      </section>
+
+      <section id="expenses" class="page">
+        <div class="page-head"><div><h1>Despesas</h1><p>Controle despesas únicas, recorrentes e pagamentos automáticos.</p></div><button class="btn btn-primary" onclick="openModal('expenseModal')">Nova despesa</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Despesa</th><th>Valor</th><th>Recorrência</th><th>Próximo pagamento</th><th>Forma</th><th>Status</th></tr></thead><tbody id="expensesTable"></tbody></table></div>
+      </section>
+
+      <section id="providerHome" class="page">
+        <div class="page-head"><div><h1>Minha conta</h1><p>Consulte seus dados e envie novas cobranças.</p></div><button class="btn btn-primary" onclick="openModal('providerChargeModal')">Emitir cobrança</button></div>
+        <div class="notice">Todos os dados obrigatórios devem estar preenchidos antes de emitir uma cobrança.</div>
+        <div class="grid-3">
+          <div class="card metric"><div class="label">Nome</div><div class="value" style="font-size:18px">Marina Souza</div></div>
+          <div class="card metric"><div class="label">CNPJ</div><div class="value" style="font-size:18px">45.123.456/0001-90</div></div>
+          <div class="card metric"><div class="label">E-mail</div><div class="value" style="font-size:18px">marina@msdesign.com.br</div></div>
+        </div>
+        <div style="height:13px"></div>
+        <div class="grid-3">
+          <div class="card metric"><div class="label">Chave PIX</div><div class="value" style="font-size:17px">45.123.456/0001-90</div></div>
+          <div class="card metric"><div class="label">Valor negociado</div><div class="value" style="font-size:20px">R$ 2.000,00</div></div>
+          <div class="card"><div class="label" style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em">Serviços prestados</div><p style="font-size:13px;color:#ddd;line-height:1.5">Criação de peças gráficas, campanhas e suporte mensal de design.</p></div>
+        </div>
+        <div style="height:13px"></div>
+        <div class="card"><div class="section-head"><h3>Últimas cobranças</h3><button class="btn btn-secondary btn-small" onclick="showPage('providerCharges')">Ver todas</button></div><div id="providerLatestList" class="list"></div></div>
+      </section>
+
+      <section id="providerCharges" class="page">
+        <div class="page-head"><div><h1>Minhas cobranças</h1><p>As cobranças permanecem no histórico e não podem ser apagadas.</p></div><button class="btn btn-primary" onclick="openModal('providerChargeModal')">Emitir cobrança</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Data</th><th>Valor</th><th>Nota Fiscal</th><th>Descrição</th><th>Status</th><th>Retorno</th><th>Ações</th></tr></thead><tbody id="providerChargesTable"></tbody></table></div>
+      </section>
+
+      <section id="providerProfile" class="page">
+        <div class="page-head"><div><h1>Meu cadastro</h1><p>Complete os dados obrigatórios para receber pagamentos.</p></div></div>
+        <div class="card">
+          <div class="grid-2">
+            <div class="field"><label>Nome</label><input class="input" value="Marina Souza" disabled></div>
+            <div class="field"><label>CNPJ</label><input class="input" value="45.123.456/0001-90" disabled></div>
+          </div>
+          <div class="field"><label>E-mail</label><input class="input" value="marina@msdesign.com.br" disabled></div>
+          <div class="field"><label>Chave PIX *</label><input class="input" value="45.123.456/0001-90"></div>
+          <div class="field"><label>Valor negociado do serviço *</label><input class="input" type="number" value="2000"></div>
+          <div class="field"><label>Liste aqui os serviços prestados *</label><textarea class="textarea">Criação de peças gráficas, campanhas e suporte mensal de design.</textarea></div>
+          <button class="btn btn-primary">Salvar cadastro</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</section>
+
+<div id="clientModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Novo cliente</h3><button class="close" onclick="closeModal('clientModal')">×</button></div><div class="modal-body">
+  <div class="field"><label>CNPJ *</label><input id="clientCnpj" class="input" placeholder="00.000.000/0000-00" onblur="lookupCnpj()"></div>
+  <div class="field"><label>Razão Social *</label><input id="clientCompany" class="input" placeholder="Preenchida automaticamente"></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('clientModal')">Cancelar</button><button class="btn btn-primary" onclick="addClient()">Cadastrar</button></div></div></div>
+
+<div id="providerModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Novo prestador</h3><button class="close" onclick="closeModal('providerModal')">×</button></div><div class="modal-body">
+  <div class="field"><label>Nome *</label><input id="providerName" class="input"></div>
+  <div class="field"><label>CNPJ *</label><input id="providerCnpj" class="input"></div>
+  <div class="field"><label>E-mail *</label><input id="providerEmail" class="input" type="email"></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('providerModal')">Cancelar</button><button class="btn btn-primary" onclick="addProvider()">Criar acesso e enviar convite</button></div></div></div>
+
+<div id="contractModal" class="modal-bg hidden"><div class="modal wide"><div class="modal-head"><h3>Novo contrato</h3><button class="close" onclick="closeModal('contractModal')">×</button></div><div class="modal-body">
+  <div class="grid-2"><div class="field"><label>Cliente *</label><select id="contractClient" class="select"></select></div><div class="field"><label>Nome do serviço *</label><input id="contractService" class="input"></div></div>
+  <div class="field"><label>Descrição do que foi contratado *</label><textarea id="contractDescription" class="textarea"></textarea></div>
+  <div class="grid-2"><div class="field"><label>Data de início *</label><input id="contractStart" type="date" class="input"></div><div class="field"><label>Data de encerramento</label><input id="contractEnd" type="date" class="input"></div></div>
+  <div class="grid-2"><div class="field"><label>Valor total do contrato *</label><input id="contractTotal" type="number" step="0.01" class="input"></div><div class="field"><label>Contrato anexado</label><input id="contractFile" type="file" class="input"></div></div>
+  <div class="field"><label>Observações internas</label><textarea id="contractNotes" class="textarea"></textarea></div>
+  <div class="section-head"><h3>Como este contrato será pago?</h3></div>
+  <div class="choice-grid">
+    <button class="choice active" onclick="selectPaymentModel('percentual',this)">Por percentual</button>
+    <button class="choice" onclick="selectPaymentModel('parcelado',this)">Parcelado</button>
+    <button class="choice" onclick="selectPaymentModel('mensal',this)">Mensal recorrente</button>
+    <button class="choice" onclick="selectPaymentModel('unico',this)">Pagamento único</button>
+    <button class="choice" onclick="selectPaymentModel('etapas',this)">Por etapas</button>
+    <button class="choice" onclick="selectPaymentModel('personalizado',this)">Datas e valores personalizados</button>
+  </div>
+  <div style="height:14px"></div><div id="paymentModelFields"></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('contractModal')">Cancelar</button><button class="btn btn-primary" onclick="saveContract()">Criar contrato e gerar cobranças</button></div></div></div>
+
+<div id="expenseModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Nova despesa</h3><button class="close" onclick="closeModal('expenseModal')">×</button></div><div class="modal-body">
+  <div class="field"><label>Nome da despesa *</label><input id="expenseName" class="input"></div>
+  <div class="field"><label>Valor *</label><input id="expenseValue" class="input" type="number" step="0.01"></div>
+  <div class="grid-2"><div class="field"><label>Recorrência *</label><select id="expenseRecurrence" class="select"><option>Única</option><option>Semanal</option><option>Quinzenal</option><option>Mensal</option><option>Anual</option></select></div><div class="field"><label>Próxima data *</label><input id="expenseDate" class="input" type="date"></div></div>
+  <div class="field"><label>Pagamento automático</label><select id="expenseAuto" class="select"><option>Não</option><option>Sim</option></select></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('expenseModal')">Cancelar</button><button class="btn btn-primary" onclick="addExpense()">Salvar</button></div></div></div>
+
+<div id="providerChargeModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Emitir cobrança</h3><button class="close" onclick="closeModal('providerChargeModal')">×</button></div><div class="modal-body">
+  <div class="field"><label>Nota Fiscal *</label><input id="providerChargeFile" type="file" class="input" accept=".pdf,.jpg,.png"></div>
+  <div class="field"><label>Valor da nota *</label><input id="providerChargeValue" type="number" step="0.01" class="input"></div>
+  <div class="field"><label>Chave PIX *</label><input id="providerChargePix" class="input" value="45.123.456/0001-90"></div>
+  <div class="field"><label>Descrição *</label><textarea id="providerChargeDescription" class="textarea"></textarea></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('providerChargeModal')">Cancelar</button><button class="btn btn-primary" onclick="submitProviderCharge()">Enviar</button></div></div></div>
+
+<div id="rejectModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Recusar cobrança</h3><button class="close" onclick="closeModal('rejectModal')">×</button></div><div class="modal-body"><div class="field"><label>Informe o que está errado *</label><textarea id="rejectReason" class="textarea"></textarea></div></div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('rejectModal')">Cancelar</button><button class="btn btn-danger" onclick="confirmReject()">Recusar e notificar</button></div></div></div>
+
+<div id="manualChargeModal" class="modal-bg hidden"><div class="modal"><div class="modal-head"><h3>Gerar cobrança manual</h3><button class="close" onclick="closeModal('manualChargeModal')">×</button></div><div class="modal-body">
+  <div class="field"><label>Cliente *</label><select id="manualClient" class="select"></select></div>
+  <div class="field"><label>Descrição *</label><input id="manualDescription" class="input"></div>
+  <div class="grid-2"><div class="field"><label>Valor *</label><input id="manualValue" class="input" type="number" step="0.01"></div><div class="field"><label>Vencimento *</label><input id="manualDue" class="input" type="date"></div></div>
+</div><div class="modal-foot"><button class="btn btn-secondary" onclick="closeModal('manualChargeModal')">Cancelar</button><button class="btn btn-primary" onclick="saveManualCharge()">Gerar cobrança</button></div></div></div>
+
+<script>
+const seed={
+  clients:[
+    {id:1,cnpj:"12.456.789/0001-10",company:"Entre Telecom Ltda.",status:"Ativo"},
+    {id:2,cnpj:"33.555.777/0001-20",company:"Furious Moto Parts Ltda.",status:"Ativo"}
+  ],
+  contracts:[],
+  receivables:[],
+  providers:[
+    {id:1,name:"Marina Souza",cnpj:"45.123.456/0001-90",email:"marina@msdesign.com.br",pix:"45.123.456/0001-90",value:2000,services:"Design e desdobramentos de campanhas",access:"Ativo"},
+    {id:2,name:"João Lima",cnpj:"31.987.654/0001-22",email:"joao@jlvideos.com.br",pix:"11999999999",value:1400,services:"Edição de vídeos",access:"Ativo"}
+  ],
+  providerCharges:[
+    {id:101,providerId:1,provider:"Marina Souza",date:"03/08/2026",value:2000,pix:"45.123.456/0001-90",description:"Serviços de design - agosto",file:"NF-102.pdf",status:"Em análise",reason:""},
+    {id:102,providerId:2,provider:"João Lima",date:"02/08/2026",value:1400,pix:"11999999999",description:"Edição de vídeos - julho",file:"NF-088.pdf",status:"Paga",reason:""}
+  ],
+  expenses:[
+    {id:1,name:"Google Drive",value:100,recurrence:"Mensal",date:"2026-08-10",auto:"Sim",status:"Automática"},
+    {id:2,name:"Contabilidade",value:200,recurrence:"Mensal",date:"2026-08-15",auto:"Não",status:"Pendente"}
+  ]
+};
+let data=JSON.parse(localStorage.getItem("lacmaFinPrototype")||"null")||seed;
+let currentRole="admin",paymentModel="percentual",rejectId=null;
+const money=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function save(){localStorage.setItem("lacmaFinPrototype",JSON.stringify(data));renderAll()}
+function badge(s){let c="st-warning";if(["Ativo","Ativa","Aprovada","Recebido","Paga","Automática"].includes(s))c="st-success";if(["Recusada","Inativa","Atrasada"].includes(s))c="st-danger";if(["Em análise","Convite enviado"].includes(s))c="st-info";return `<span class="status ${c}">${s}</span>`}
+function login(){currentRole=roleSelect.value;loginScreen.classList.add("hidden");portal.classList.remove("hidden");adminNav.classList.toggle("hidden",currentRole!=="admin");providerNav.classList.toggle("hidden",currentRole!=="provider");profileName.textContent=currentRole==="admin"?"Luana":"Marina Souza";profileRole.textContent=currentRole==="admin"?"Administrador":"Prestador";showPage(currentRole==="admin"?"dashboard":"providerHome")}
+function logout(){portal.classList.add("hidden");loginScreen.classList.remove("hidden")}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+const labels={dashboard:["Dashboard","Visão geral da operação financeira"],clients:["Clientes","Cadastros e contratos"],contracts:["Contratos","Condições financeiras"],providers:["Prestadores","Cadastros e notas"],payments:["Pagamentos","A receber e a pagar"],expenses:["Despesas","Despesas recorrentes"],providerHome:["Minha conta","Resumo do prestador"],providerCharges:["Minhas cobranças","Histórico de notas"],providerProfile:["Meu cadastro","Dados obrigatórios"]};
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));topTitle.textContent=labels[id][0];topSubtitle.textContent=labels[id][1];renderAll()}
+function openModal(id){document.getElementById(id).classList.remove("hidden")}
+function closeModal(id){document.getElementById(id).classList.add("hidden")}
+function lookupCnpj(){if(clientCnpj.value.trim().length>=14)clientCompany.value="Empresa consultada automaticamente Ltda."}
+function addClient(){const cnpj=clientCnpj.value.trim(),company=clientCompany.value.trim();if(!cnpj||!company)return alert("Preencha os campos obrigatórios.");data.clients.unshift({id:Date.now(),cnpj,company,status:"Ativo"});save();closeModal("clientModal")}
+function addProvider(){const name=providerName.value.trim(),cnpj=providerCnpj.value.trim(),email=providerEmail.value.trim();if(!name||!cnpj||!email)return alert("Preencha nome, CNPJ e e-mail.");data.providers.unshift({id:Date.now(),name,cnpj,email,pix:"Aguardando preenchimento",value:0,services:"Aguardando preenchimento",access:"Convite enviado"});save();closeModal("providerModal");alert("Convite simulado enviado para "+email)}
+function populateClients(){const opts=data.clients.map(c=>`<option value="${c.id}">${c.company}</option>`).join("");contractClient.innerHTML=opts;manualClient.innerHTML=opts}
+function openContractModal(){populateClients();contractStart.value=new Date().toISOString().slice(0,10);renderPaymentModel();openModal("contractModal")}
+function selectPaymentModel(m,btn){paymentModel=m;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));btn.classList.add("active");renderPaymentModel()}
+function renderPaymentModel(){const start=contractStart.value||new Date().toISOString().slice(0,10);let h="";if(["percentual","etapas","personalizado"].includes(paymentModel))h=`<div class="section-head"><h3>Etapas de pagamento</h3><button class="btn btn-secondary btn-small" onclick="addStage()">Adicionar etapa</button></div><div id="stages"></div>`;if(paymentModel==="parcelado")h=`<div class="grid-2"><div class="field"><label>Quantidade de parcelas *</label><input id="installments" class="input" type="number" min="2" value="2"></div><div class="field"><label>Primeiro vencimento *</label><input id="firstDue" class="input" type="date" value="${start}"></div></div>`;if(paymentModel==="mensal")h=`<div class="grid-3"><div class="field"><label>Valor mensal *</label><input id="monthlyValue" class="input" type="number"></div><div class="field"><label>Primeiro vencimento *</label><input id="firstDue" class="input" type="date" value="${start}"></div><div class="field"><label>Quantidade de meses *</label><input id="monthQty" class="input" type="number" value="12"></div></div>`;if(paymentModel==="unico")h=`<div class="field"><label>Vencimento *</label><input id="singleDue" class="input" type="date" value="${start}"></div>`;paymentModelFields.innerHTML=h;if(["percentual","etapas","personalizado"].includes(paymentModel)){addStage("Entrada",30,start);addStage("Etapa 2",30,start);addStage("Etapa 3",20,start);addStage("Entrega",20,start)}}
+function addStage(name="",amount="",date=""){const row=document.createElement("div");row.className="stage-row";row.innerHTML=`<div class="field"><label>Etapa</label><input class="input stage-name" value="${name}"></div><div class="field"><label>${paymentModel==="personalizado"?"Valor":"Percentual"}</label><input class="input stage-amount" type="number" value="${amount}"></div><div class="field"><label>Vencimento</label><input class="input stage-date" type="date" value="${date}"></div><button class="btn btn-danger btn-small" onclick="this.parentElement.remove()">×</button>`;stages.appendChild(row)}
+function saveContract(){const clientId=Number(contractClient.value),client=data.clients.find(x=>x.id===clientId),service=contractService.value.trim(),description=contractDescription.value.trim(),start=contractStart.value,total=Number(contractTotal.value);if(!client||!service||!description||!start||!total)return alert("Preencha os campos obrigatórios.");const id=Date.now(),generated=[];if(["percentual","etapas","personalizado"].includes(paymentModel)){document.querySelectorAll(".stage-row").forEach((r,i)=>{const name=r.querySelector(".stage-name").value||`Etapa ${i+1}`,a=Number(r.querySelector(".stage-amount").value),due=r.querySelector(".stage-date").value,val=paymentModel==="personalizado"?a:total*a/100;if(val&&due)generated.push({id:id+i,clientId,client:client.company,service,label:name,value:val,due,status:"Pendente",contractId:id})})}else if(paymentModel==="parcelado"){const qty=Number(installments.value),first=new Date(firstDue.value+"T12:00:00");for(let i=0;i<qty;i++){const d=new Date(first);d.setMonth(d.getMonth()+i);generated.push({id:id+i,clientId,client:client.company,service,label:`Parcela ${i+1}/${qty}`,value:total/qty,due:d.toISOString().slice(0,10),status:"Pendente",contractId:id})}}else if(paymentModel==="mensal"){const qty=Number(monthQty.value),val=Number(monthlyValue.value),first=new Date(firstDue.value+"T12:00:00");for(let i=0;i<qty;i++){const d=new Date(first);d.setMonth(d.getMonth()+i);generated.push({id:id+i,clientId,client:client.company,service,label:`Mensalidade ${i+1}/${qty}`,value:val,due:d.toISOString().slice(0,10),status:"Pendente",contractId:id})}}else generated.push({id,clientId,client:client.company,service,label:"Pagamento único",value:total,due:singleDue.value,status:"Pendente",contractId:id});data.contracts.unshift({id,clientId,client:client.company,service,description,start,end:contractEnd.value,total,model:paymentModel,status:"Ativo",paymentCount:generated.length});data.receivables.unshift(...generated);save();closeModal("contractModal")}
+function addExpense(){const name=expenseName.value.trim(),value=Number(expenseValue.value),recurrence=expenseRecurrence.value,date=expenseDate.value,auto=expenseAuto.value;if(!name||!value||!date)return alert("Preencha os campos obrigatórios.");data.expenses.unshift({id:Date.now(),name,value,recurrence,date,auto,status:auto==="Sim"?"Automática":"Pendente"});save();closeModal("expenseModal")}
+function submitProviderCharge(){const file=providerChargeFile.files[0],value=Number(providerChargeValue.value),pix=providerChargePix.value.trim(),description=providerChargeDescription.value.trim();if(!file||!value||!pix||!description)return alert("Todos os campos são obrigatórios.");data.providerCharges.unshift({id:Date.now(),providerId:1,provider:"Marina Souza",date:new Date().toLocaleDateString("pt-BR"),value,pix,description,file:file.name,status:"Em análise",reason:""});save();closeModal("providerChargeModal")}
+function inactivateCharge(id){const x=data.providerCharges.find(x=>x.id===id);x.status="Inativa";save()}
+function approveCharge(id){const x=data.providerCharges.find(x=>x.id===id);x.status="Aprovada";save();alert("E-mail de aprovação simulado.")}
+function payCharge(id){const x=data.providerCharges.find(x=>x.id===id);x.status="Paga";save();alert("E-mail de pagamento simulado.")}
+function openReject(id){rejectId=id;rejectReason.value="";openModal("rejectModal")}
+function confirmReject(){const reason=rejectReason.value.trim();if(!reason)return alert("Informe o motivo.");const x=data.providerCharges.find(x=>x.id===rejectId);x.status="Recusada";x.reason=reason;save();closeModal("rejectModal");alert("E-mail de recusa simulado.")}
+function paymentTab(t){receivePanel.classList.toggle("hidden",t!=="receive");payPanel.classList.toggle("hidden",t!=="pay");receiveTabBtn.classList.toggle("active",t==="receive");payTabBtn.classList.toggle("active",t==="pay")}
+function markReceived(id){const x=data.receivables.find(x=>x.id===id);x.status="Recebido";save()}
+function saveManualCharge(){const client=data.clients.find(x=>x.id===Number(manualClient.value)),description=manualDescription.value.trim(),value=Number(manualValue.value),due=manualDue.value;if(!client||!description||!value||!due)return alert("Preencha todos os campos.");data.receivables.unshift({id:Date.now(),clientId:client.id,client:client.company,service:"Cobrança manual",label:description,value,due,status:"Pendente",contractId:null});save();closeModal("manualChargeModal")}
+function renderClients(){const q=(clientSearch.value||"").toLowerCase();clientsTable.innerHTML=data.clients.filter(c=>(c.cnpj+c.company).toLowerCase().includes(q)).map(c=>{const contracts=data.contracts.filter(x=>x.clientId===c.id),total=contracts.reduce((a,b)=>a+b.total,0);return `<tr><td>${c.cnpj}</td><td><strong>${c.company}</strong></td><td>${contracts.length}</td><td>${money(total)}</td><td>${badge(c.status)}</td><td><button class="btn btn-secondary btn-small" onclick="showPage('contracts')">Ver contratos</button></td></tr>`}).join("")||`<tr><td colspan="6" class="empty">Nenhum cliente.</td></tr>`}
+function renderContracts(){contractsTable.innerHTML=data.contracts.map(x=>`<tr><td><strong>${x.client}</strong></td><td>${x.service}</td><td>${x.model}</td><td>${money(x.total)}</td><td>${new Date(x.start+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${x.end?new Date(x.end+"T12:00:00").toLocaleDateString("pt-BR"):"—"}</td><td>${x.paymentCount}</td><td>${badge(x.status)}</td></tr>`).join("")||`<tr><td colspan="8" class="empty">Nenhum contrato.</td></tr>`}
+function renderProviders(){const q=(providerSearch.value||"").toLowerCase();providersTable.innerHTML=data.providers.filter(x=>(x.name+x.cnpj+x.email).toLowerCase().includes(q)).map(x=>`<tr><td><strong>${x.name}</strong></td><td>${x.cnpj}</td><td>${x.email}</td><td>${x.pix}</td><td>${money(x.value)}</td><td>${x.services}</td><td>${badge(x.access)}</td></tr>`).join("")}
+function renderPayments(){receivablesTable.innerHTML=data.receivables.map(x=>`<tr><td><strong>${x.client}</strong></td><td>${x.service}</td><td>${x.label}</td><td>${money(x.value)}</td><td>${new Date(x.due+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${badge(x.status)}</td><td>${x.status!=="Recebido"?`<button class="btn btn-secondary btn-small" onclick="markReceived(${x.id})">Marcar recebido</button>`:""}</td></tr>`).join("")||`<tr><td colspan="7" class="empty">Nenhum valor a receber.</td></tr>`;const providerRows=data.providerCharges.map(x=>`<tr><td>Prestador</td><td><strong>${x.provider}</strong></td><td>${x.description}${x.reason?`<div style="color:var(--danger);font-size:11px;margin-top:4px">Motivo: ${x.reason}</div>`:""}</td><td>${money(x.value)}</td><td>${x.date}</td><td>${badge(x.status)}</td><td><div class="actions">${x.status==="Em análise"?`<button class="btn btn-secondary btn-small" onclick="approveCharge(${x.id})">Aprovar</button><button class="btn btn-danger btn-small" onclick="openReject(${x.id})">Recusar</button>`:""}${x.status==="Aprovada"?`<button class="btn btn-primary btn-small" onclick="payCharge(${x.id})">Marcar paga</button>`:""}</div></td></tr>`).join("");const expenseRows=data.expenses.map(x=>`<tr><td>Despesa</td><td><strong>${x.name}</strong></td><td>${x.recurrence}</td><td>${money(x.value)}</td><td>${new Date(x.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${badge(x.status)}</td><td>${x.auto==="Sim"?"Automático":"Manual"}</td></tr>`).join("");payablesTable.innerHTML=providerRows+expenseRows||`<tr><td colspan="7" class="empty">Nenhum valor a pagar.</td></tr>`}
+function renderExpenses(){expensesTable.innerHTML=data.expenses.map(x=>`<tr><td><strong>${x.name}</strong></td><td>${money(x.value)}</td><td>${x.recurrence}</td><td>${new Date(x.date+"T12:00:00").toLocaleDateString("pt-BR")}</td><td>${x.auto==="Sim"?"Automático":"Manual"}</td><td>${badge(x.status)}</td></tr>`).join("")}
+function renderProviderArea(){const mine=data.providerCharges.filter(x=>x.providerId===1);providerLatestList.innerHTML=mine.slice(0,4).map(x=>`<div class="list-row"><div><strong>${x.description}</strong><div style="font-size:11px;color:var(--muted)">${x.date}</div></div><div style="text-align:right"><strong>${money(x.value)}</strong><div style="margin-top:4px">${badge(x.status)}</div></div></div>`).join("");providerChargesTable.innerHTML=mine.map(x=>`<tr><td>${x.date}</td><td>${money(x.value)}</td><td>${x.file}</td><td>${x.description}</td><td>${badge(x.status)}</td><td>${x.reason||"—"}</td><td>${!["Paga","Inativa"].includes(x.status)?`<button class="btn btn-danger btn-small" onclick="inactivateCharge(${x.id})">Inativar</button>`:""}</td></tr>`).join("")}
+function renderDashboard(){const now=new Date(),m=now.getMonth(),y=now.getFullYear();const monthReceivables=data.receivables.filter(x=>{const d=new Date(x.due+"T12:00:00");return d.getMonth()===m&&d.getFullYear()===y&&x.status!=="Inativa"});const income=monthReceivables.reduce((a,b)=>a+b.value,0),pending=data.providerCharges.filter(x=>!["Paga","Inativa","Recusada"].includes(x.status)),expenseTotal=data.expenses.reduce((a,b)=>a+b.value,0)+pending.reduce((a,b)=>a+b.value,0);dashIncome.textContent=money(income);dashExpenses.textContent=money(expenseTotal);dashProfit.textContent=money(income-expenseTotal);dashProviders.textContent=data.providers.length;dashPendingInvoices.textContent=pending.length;dashPendingAmount.textContent=money(pending.reduce((a,b)=>a+b.value,0));dashClients.textContent=data.clients.length;upcomingList.innerHTML=monthReceivables.sort((a,b)=>a.due.localeCompare(b.due)).slice(0,5).map(x=>`<div class="list-row"><div><strong>${x.client}</strong><div style="font-size:11px;color:var(--muted)">${x.label}</div></div><div style="text-align:right"><strong>${money(x.value)}</strong><div style="font-size:11px;color:var(--muted)">${new Date(x.due+"T12:00:00").toLocaleDateString("pt-BR")}</div></div></div>`).join("")||`<div class="empty">Nenhuma cobrança neste mês.</div>`;calendarLabel.textContent=now.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),names=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];let h=names.map(n=>`<div class="cal-label">${n}</div>`).join("");for(let i=0;i<first;i++)h+=`<div class="cal-day off"></div>`;for(let d=1;d<=days;d++){const vals=monthReceivables.filter(x=>new Date(x.due+"T12:00:00").getDate()===d),t=vals.reduce((a,b)=>a+b.value,0);h+=`<div class="cal-day ${t?"has":""}"><div class="n">${d}</div>${t?`<div class="amt">${money(t)}</div>`:""}</div>`}calendarGrid.innerHTML=h}
+function renderAll(){populateClients();renderClients();renderContracts();renderProviders();renderPayments();renderExpenses();renderProviderArea();renderDashboard()}
+renderPaymentModel();renderAll();
+</script>
+</body>
+</html>
